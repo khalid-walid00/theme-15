@@ -1,39 +1,26 @@
-<div class="flex items-center gap-2 justify-center" x-data="{
-    visiblePages: 4,
-    currentStartPage: 1,
-    current: filterData?.pagination?.currentPage || 1,
-    totalPages: filterData?.pagination?.totalPages,
+<script src="{{ 'pagination.js' | assets }}"></script>
+<div x-data="xDataPagination(context)" class="flex items-center gap-2 justify-center">
+  <span
+    x-show="currentPage > 1"
+    @click="prevPage"
+    class="cursor-pointer border border-neutral200 h-8 w-8 flex items-center justify-center rounded-mainRadius"
+  >
+  <i class="fi fi-tr-angle-small-right"></i>
+  </span>
 
-    setPagination(number) {
-        this.current = number;
-        this.currentStartPage = Math.max(1, Math.min(number - Math.floor(this.visiblePages / 2), this.totalPages - this.visiblePages + 1));
-        filterProducts({ page: number, limit: filterData?.pagination?.limit });
-    },
-
-
-}">
-    <span x-show="current > 1" @click="setPagination(current - 1)"
-        class="cursor-pointer border border-[#E5E5E5] h-8 w-8 flex items-center justify-center rounded">
-        <i class="fi flex items-center text-[#242424] text-sm fi-rr-angle-right"></i>
-    </span>
-
-    <template x-for="item in Array.from(
-        { length: Math.min(4, filterData?.pagination?.totalPages || 1) }, 
-        (_, i) => Math.max(1, 
-            Math.min((filterData?.pagination?.currentPage || 1) - Math.floor(4 / 2), 
-                     (filterData?.pagination?.totalPages || 1) - 3)
-        ) + i
-    )" :key="item">
-        <span @click="setPagination(item)"
-            :class="{'bg-mainColor text-white': (filterData?.pagination?.currentPage || 1) === item}" x-text="item"
-            class="cursor-pointer border font-bold text-[#242424] border-[#E5E5E5] h-8 w-8 flex items-center justify-center rounded">
-        </span>
-    </template>
-
-
-    <span x-show="current < totalPages && filterData?.pagination?.totalPages > 1 &&filterData?.pagination?.hasNextPage" @click="setPagination(current + 1)"
-        class="cursor-pointer border border-[#E5E5E5] h-8 w-8 flex items-center justify-center rounded">
-        <i class="fi flex items-center text-[#242424] text-sm fi-rr-angle-left"></i>
-    </span>
-
+  <template x-for="page in pagesToShow" :key="page">
+    <span
+      @click="setPagination(page)"
+      :class="currentPage === page ? 'bg-mainColor text-white' : ''"
+      class="cursor-pointer border border-neutral200 h-8 w-8 flex items-center justify-center rounded-mainRadius"
+      x-text="page"
+    ></span>
+  </template>
+  <span
+    x-show="currentPage < context.pagination.totalPages"
+    @click="nextPage"
+    class="cursor-pointer border border-neutral200 h-8 w-8 flex items-center justify-center rounded-mainRadius"
+  >
+  <i class="fi fi-tr-angle-small-left"></i>
+  </span>
 </div>

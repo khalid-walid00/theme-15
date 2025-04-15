@@ -1,77 +1,51 @@
 {# footer #}
-<div style="background-color: #333333">
-   <div class=" flex lg:flex-row flex-col lg:gap-16 xl:gap-36 gap-8 container py-11">
-      <div class="md:min-w-40  flex flex-col gap-6 ">
+<div  class=" bg-white border-y border-neutral200">
+   <div class=" flex lg:flex-row flex-col justify-between lg:gap-16 xl:gap-36 gap-8 container py-[60px]">
+      <div class="md:min-w-40  flex flex-col gap-4 ">
          <div class="  flex justify-start w-full">
-            <img class=" h-12  object-contain " :src="data?.app?.logoUrl" alt="Logo" loading="lazy">
+            <img class=" h-[80px]  object-contain " :src="data?.app?.logoUrl" alt="Logo" loading="lazy">
          </div>
 
-         <div class="md:w-1/2 lg:w-full text-white">
-            <span x-text="data?.app?.description"></span>
+         <div class="md:w-1/2 lg:w-full">
+            <span class=" text-customBlack" x-text="data?.app?.description"></span>
          </div>
       </div>
-      <div x-show="data?.lists?.footer?.length > 0" class="text-white w-max flex flex-col gap-6">
-         <h5 class="  font-bold text-2xl text-nowrap flex gap-3 items-center">
-            <div class=" border-r-2 border-mainColor flex h-6"></div>
+      <div x-show="data?.lists?.footer?.length > 0" class=" w-max flex flex-col gap-4">
+         <h5 class="text-customBlack  font-bold text-xl text-nowrap flex gap-3 items-center">
             روابط سريعة
          </h5>
          <div class="  flex flex-col gap-2">
             <template x-for="item in data?.lists?.footer">
                <a aria-label="footer list" :href="item?.url" class="flex gap-3 items-center">
-                  <i class="fi fi-rr-angle-left text-mainColor text-sm flex items-center"></i>
                   <span x-text="item.title" class=" text-base text-nowrap">
                   </span>
-
                </a>
             </template>
          </div>
       </div>
 
-
-      <div x-show="data?.app?.socialMedia" class="text-white w-max flex flex-col gap-6">
-         <h5 class="  font-bold text-2xl text-nowrap flex gap-3 items-center">
-            <div class=" border-r-2 border-mainColor flex h-6"></div>
-            تواصل معنا
+      <div x-show="data?.lists?.footer?.length > 0" class=" w-max flex flex-col gap-4">
+         <h5 class="text-customBlack  font-bold text-xl text-nowrap flex gap-3 items-center">
+            تسوق منتجاتنا
          </h5>
-
-         <div class=" flex flex-col gap-4">
-            <template x-if="data.app.support.phone">
-               <a aria-label="الهاتف" target="_blank" :href="tel://data.app.socialMedia.phone"
-                  class="flex  items-center gap-3 ">
-                  <i class="fi flex items-center fi-rr-phone-call"></i>
-                  <span x-text="data.app.socialMedia.phone"></span>
-               </a>
-            </template>
-            <template x-if="data.app.socialMedia.whatsapp">
-               <a aria-label="الواتساب" target="_blank" ;href="https://wa.me/data.app.socialMedia.whatsapp"
-                  class="flex items-center gap-3 ">
-                  <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                     <path
-                        d="M9.33325 2.04834C4.99098 2.04834 1.45825 5.52302 1.45825 9.79385C1.45825 11.1251 1.80734 12.4381 2.46783 13.5908C2.5648 13.76 2.59023 13.954 2.53949 14.1366C2.34655 14.8306 2.04123 15.9433 1.84851 16.6466C1.79654 16.8359 1.8349 17.0337 1.95348 17.1892C2.07104 17.3433 2.25576 17.4353 2.44758 17.4353C2.50146 17.4353 2.55558 17.4282 2.60834 17.4143C3.35973 17.2164 4.7221 16.8607 5.40385 16.7011C5.45695 16.6886 5.51151 16.6823 5.56585 16.6823C5.6707 16.6823 5.77578 16.7063 5.86983 16.7516C6.95286 17.2741 8.11814 17.539 9.33325 17.539C13.6755 17.539 17.2083 14.0645 17.2083 9.79352C17.2083 5.52257 13.6755 2.04834 9.33325 2.04834ZM13.6659 13.0172C13.4744 13.5537 12.5566 14.0433 12.1152 14.1094C11.7193 14.1684 11.2185 14.1931 10.6682 14.0183C10.3345 13.9125 9.90655 13.7712 9.35845 13.5345C7.05389 12.5398 5.54875 10.22 5.43389 10.0667C5.31891 9.91344 4.49575 8.82129 4.49575 7.69089C4.49575 6.56049 5.08919 6.00485 5.29979 5.7749C5.51039 5.54495 5.75924 5.48747 5.91246 5.48747C6.06558 5.48747 6.21891 5.48893 6.35279 5.49557C6.49386 5.50254 6.6832 5.44202 6.86961 5.88988C7.06109 6.34967 7.52054 7.48007 7.57791 7.59515C7.6354 7.71002 7.67365 7.84423 7.59715 7.99745C7.52054 8.15068 7.48229 8.24653 7.36743 8.38063C7.25256 8.51473 7.12623 8.6801 7.02284 8.78293C6.90786 8.89745 6.78805 9.02177 6.92204 9.25172C7.05614 9.48167 7.51716 10.2338 8.20015 10.8428C9.07765 11.6252 9.81779 11.8678 10.0476 11.9827C10.2774 12.0976 10.4113 12.0784 10.5453 11.9252C10.6794 11.7718 11.1196 11.2546 11.2729 11.0246C11.4261 10.7947 11.5792 10.833 11.7898 10.9096C12.0003 10.9864 13.1298 11.5419 13.3596 11.6569C13.5894 11.7719 13.7425 11.8294 13.8 11.9252C13.8572 12.0209 13.8572 12.4807 13.6659 13.0172Z"
-                        fill="#FFFFFF" />
-                  </svg>
-
-                  <span x-text="data.app.socialMedia.whatsapp"></span>
-
-               </a>
-            </template>
-            <template x-if="data.app.socialMedia.email">
-               <a aria-label="الايميل" target="_blank" :href="mailto:data.app.socialMedia.email"
-                  class="flex items-center gap-3 ">
-                  <i class="fi fi-rr-envelope"></i>
-                  <span x-text="data.app.socialMedia.email"></span>
+         <div class="  flex flex-col gap-2">
+            <template x-for="item in context?.filters?.categories.slice(0, 4)">
+               <a aria-label="footer list" :href="/category/${item?.slug}" class="flex gap-3 items-center">
+                  <span x-text="item.title" class=" text-base text-nowrap">
+                  </span>
                </a>
             </template>
          </div>
       </div>
 
-      <div
-         x-show="data?.app?.socialMedia.facebook || data?.app?.socialMedia.snapchat || data?.app?.socialMedia.instagram || data?.app?.socialMedia.twitter "
-         class="text-white w-max flex flex-col gap-6">
+      
 
-         <div class="text-white w-max flex flex-col gap-4 ">
-            <h5 class="  font-bold text-2xl text-nowrap flex gap-3 items-center">
-               <div class=" border-r-2 border-mainColor flex h-6"></div>
+      {# <div
+         x-show="data?.app?.socialMedia.facebook || data?.app?.socialMedia.snapchat || data?.app?.socialMedia.instagram || data?.app?.socialMedia.twitter "
+         class=" w-max flex flex-col gap-4">
+
+         <div class=" w-max flex flex-col gap-4 ">
+            <h5 class="text-customBlack  font-bold text-2xl text-nowrap flex gap-3 items-center">
                تابعنا علي
 
             </h5>
@@ -135,21 +109,74 @@
             </div>
          </div>
 
-      </div>
-   </div>
+      </div> #}
 
-   <div class="border-t flex w-full" style="border-color: #575757;"></div>
-      <div class="container flex flex-row gap-2 justify-center items-center"
-         style="padding-top: 10px; padding-bottom: 10px">
-         <div class=" text-white flex  gap-2 items-center ">
-            <svg width="20" height="13" viewBox="0 0 20 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-               <path
-                  d="M19.9076 4.95606C20.1426 3.96982 19.9255 2.94965 19.3012 2.16021C18.6791 1.36172 17.7549 0.911575 16.7546 0.911575H7.00926C6.58856 0.911575 6.235 1.23504 6.21038 1.65125C6.19248 2.1014 6.54605 2.46784 6.98464 2.46784H16.7457C17.2671 2.46784 17.7549 2.70535 18.0816 3.12157C18.4105 3.53778 18.518 4.07387 18.4016 4.58283L17.3431 9.00281V9.03674C17.3096 9.15663 17.1664 9.19734 17.0746 9.1046L16.1079 8.12741C15.8058 7.82204 15.318 7.82204 15.0159 8.12741C14.7138 8.43278 14.7138 8.9259 15.0159 9.23127L15.8148 10.0388C15.9155 10.1406 15.8483 10.3103 15.7051 10.3103H8.86211C8.08785 10.3103 7.41653 9.78321 7.22184 9.03448L5.73375 3.34098C5.35557 1.9046 4.06887 0.902527 2.59867 0.902527H0.799526C0.378831 0.902527 0.0252663 1.226 0.000651118 1.65125C-0.0172508 2.1014 0.336314 2.46784 0.774912 2.46784H2.59196C3.36621 2.46784 4.03754 2.99489 4.23222 3.74362L5.72032 9.43712C6.0985 10.8735 7.3852 11.8756 8.85539 11.8756H15.6984C16.1773 11.8756 16.6405 11.7738 17.0522 11.577C17.1708 11.525 17.3118 11.5521 17.3969 11.6448L18.415 12.6741C18.5672 12.8279 18.7596 12.9025 18.961 12.9025C19.1624 12.9025 19.3571 12.8256 19.507 12.6741C19.8091 12.3687 19.8091 11.8756 19.507 11.5702L18.565 10.6179C18.4643 10.5161 18.4464 10.3623 18.5135 10.2356C18.6657 9.97321 18.782 9.68368 18.8491 9.3783L19.9076 4.95832V4.95606Z"
-                  fill="white" />
-            </svg>
-            مُشغّل بواسطة قُمرة
+
+      <div x-show="data?.app?.socialMedia" class=" w-max flex flex-col gap-4">
+         <h5 class="text-customBlack  font-bold text-xl text-nowrap flex gap-3 items-center">
+            تواصل معنا
+         </h5>
+
+         <div class=" flex flex-col gap-2">
+            <template x-if="data.app.support.phone">
+               <a aria-label="الهاتف" target="_blank" :href="tel://data.app.socialMedia.phone"
+                  class="flex  items-center gap-3 ">
+                  <i class="fi flex items-center fi-tr-phone-call"></i>
+                  <span x-text="data.app.socialMedia.phone"></span>
+               </a>
+            </template>
+            <template x-if="data.app.socialMedia.whatsapp">
+               <div 
+                  class="flex items-center gap-3 ">
+                  <i class="fi fi-tr-marker"></i>
+                  <div class="flex items-center">
+                     <span x-text="data.app.country.capital"></span>،
+                     <span x-text="data.app.country.name"></span>
+                  </div>
+               </div>
+            </template>
+            <template x-if="data.app.socialMedia.email">
+               <a aria-label="الايميل" target="_blank" :href="mailto:data.app.socialMedia.email"
+                  class="flex items-center gap-3 ">
+                  <i class="fi fi-tr-envelope-open"></i>
+                  <span x-text="data.app.socialMedia.email"></span>
+               </a>
+            </template>
          </div>
       </div>
+
    </div>
 
+   </div>
+   <div id="create-by-qumra"></div>
+   <div  class="sticky md:hidden z-[1001] bottom-0 bg-white border-t border-neutral200 left-0 w-full grid grid-cols-3">
+      <a href="/" class="py-3 px-4 flex items-center flex-col gap-[6px]">
+        <i class="fi text-lg fi-tr-house-chimney"></i>
+        <span class=" text-sm">الرئيسية</span>
+      </a>
+      <a href="/cart" class="py-3 border-x border-neutral200 px-4 flex items-center flex-col gap-[6px]">
+        <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_472_2650)">
+          <path d="M19.5275 5.01991C19.13 4.53491 18.5425 4.25741 17.9158 4.25741H3.74167L3.52833 2.72157C3.38667 1.69741 2.5 0.924072 1.465 0.924072H0.416667C0.186667 0.924072 0 1.11074 0 1.34074C0 1.57074 0.186667 1.75741 0.416667 1.75741H1.46583C2.08667 1.75741 2.61833 2.22074 2.70333 2.83574L4.1875 13.5232C4.44417 15.3666 6.04167 16.7574 7.90166 16.7574H16.25C16.48 16.7574 16.6667 16.5707 16.6667 16.3407C16.6667 16.1107 16.48 15.9241 16.25 15.9241H7.90166C6.46 15.9241 5.22333 14.8499 5.01667 13.4241H15.55C17.3317 13.4241 18.8775 12.1566 19.2267 10.4099L19.9592 6.74907C20.0817 6.13407 19.925 5.50407 19.5275 5.01991ZM19.1425 6.58574L18.41 10.2466C18.1383 11.6049 16.935 12.5907 15.55 12.5907H4.89917L3.8575 5.09074H17.9158C18.2917 5.09074 18.6442 5.25741 18.8825 5.54824C19.1208 5.83907 19.215 6.21741 19.1425 6.58574ZM5.83333 17.5907C4.91417 17.5907 4.16667 18.3382 4.16667 19.2574C4.16667 20.1766 4.91417 20.9241 5.83333 20.9241C6.7525 20.9241 7.5 20.1766 7.5 19.2574C7.5 18.3382 6.7525 17.5907 5.83333 17.5907ZM5.83333 20.0907C5.37333 20.0907 5 19.7166 5 19.2574C5 18.7982 5.37333 18.4241 5.83333 18.4241C6.29333 18.4241 6.66666 18.7982 6.66666 19.2574C6.66666 19.7166 6.29333 20.0907 5.83333 20.0907ZM14.1667 17.5907C13.2475 17.5907 12.5 18.3382 12.5 19.2574C12.5 20.1766 13.2475 20.9241 14.1667 20.9241C15.0858 20.9241 15.8333 20.1766 15.8333 19.2574C15.8333 18.3382 15.0858 17.5907 14.1667 17.5907ZM14.1667 20.0907C13.7067 20.0907 13.3333 19.7166 13.3333 19.2574C13.3333 18.7982 13.7067 18.4241 14.1667 18.4241C14.6267 18.4241 15 18.7982 15 19.2574C15 19.7166 14.6267 20.0907 14.1667 20.0907Z" fill="black"/>
+          </g>
+          <defs>
+          <clipPath id="clip0_472_2650">
+          <rect width="20" height="20" fill="white" transform="translate(0 0.924072)"/>
+          </clipPath>
+          </defs>
+          </svg>
+          
+        <span class=" text-sm">السلة</span>
+      </a>
+      <div  q-toggle="search" class="py-3 px-4 flex items-center flex-col gap-[6px]">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M15.0786 15.4L18.7998 19M17.5998 9.4C17.5998 14.0392 13.839 17.8 9.19981 17.8C4.56061 17.8 0.799805 14.0392 0.799805 9.4C0.799805 4.76081 4.56061 1 9.19981 1C13.839 1 17.5998 4.76081 17.5998 9.4Z"
+            stroke="#333333" stroke-linecap="round" />
+        </svg>
+        <span class=" text-sm">بحث</span>
+      </div>
+    
+    </div>
+    
    {# footer #}

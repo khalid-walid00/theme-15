@@ -1,33 +1,20 @@
-<div class="relative w-[140px]" x-data="{ 
-    data: { isOpen: false, selected: '', options: [
-        { key: 'date', label: 'المضاف حديثا',value:-1 },
-        { key: 'date', label: 'المضاف قديما',value:1 },
-        { key: 'price', label: 'السعر الاعلي',value:-1 },
-        { key: 'price', label: 'السعر الاقل',value:1 }
-    ] },
-    toggle() { this.data.isOpen = !this.data.isOpen; },
-    select(value,key) {
-        this.data.selected = { value, key }; 
-                this.data.isOpen = false; 
-                setSort({sortOb:[{ field: key, order: value }]})
+<div x-data="xDataSort()" class="relative min-w-[132px] md:min-w-[140px]  dropdown">
+  <div @click="toggleModal('sort')"
+    class="dropdown-selected flex gap-5 justify-between items-center px-1 h-10 border-b border-neutral200 cursor-pointer bg-white">
+    <span class=" font-bold" x-text="selectedLabel || 'فرز حسب'"></span>
+    <i :class="{'rotate-180': modal.type === 'sort' && modal.open}"
+      class="fi fi-tr-angle-small-down transition-all duration-300"></i>
+  </div>
 
-    }
-}">
-    <div @click="toggle()" class="border  px-3 h-[45px] rounded cursor-pointer bg-white flex justify-between items-center">
-        <span x-text="data.selected ? data.options.find(o => o.value === data.selected.value && o.key === data.selected.key).label : 'الترتيب حسب'"></span>
-        <svg class="w-4 h-4 transform transition-transform duration-300"
-            :class="data.isOpen ? 'rotate-180' : 'rotate-0'" 
-            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-        </svg>
-    </div>
-
-    <div x-show="data.isOpen" @click.away="data.isOpen = false" class="absolute mt-1 w-full bg-white border rounded shadow-lg z-50">
-        <template x-for="option in data.options" >
-            <div @click="select(option.value, option.key)"
-                 class="px-4 py-2 cursor-pointer hover:bg-gray-100"
-                 x-text="option.label">
-            </div>
-        </template>
-    </div>
+  <ul x-show="modal.type === 'sort' && modal.open" x-transition:enter="transition ease-out duration-200"
+    x-transition:enter-start="opacity-0 transform -translate-y-2"
+    x-transition:enter-end="opacity-100 transform translate-y-0" @click.away="toggleModal('sort', false)"
+    @keydown.escape.window="toggleModal('sort', false)"
+    class="dropdown-options w-full absolute top-full right-0 mt-1 border border-neutral200 bg-white shadow-md z-10 list-none p-0">
+    <template x-for="option in options" >
+      <li @click="selectOption(option)" class="px-3 py-2 cursor-pointer hover:bg-mainColor" x-text="option.label"></li>
+    </template>
+  </ul>
 </div>
+
+<script src={{"sort.js" | assets}}></script>

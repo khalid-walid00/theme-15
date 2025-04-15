@@ -1,45 +1,35 @@
-<div x-data="{ 
-    isOpen: false, 
-    setFilterCategory: [],
-    toggleFilterCategory(id) {
-        const index = this.setFilterCategory.indexOf(id);
-        if (index === -1) {
-            this.setFilterCategory.push(id);
-        } else {
-            this.setFilterCategory.splice(index, 1);
-        }
-        filterProducts({ categories: this.setFilterCategory });
-    }
-}">
-    <div x-show="filterData?.filters?.categories?.length > 0" class="rounded-lg border border-[#E5E5E5] p-4 flex flex-col items-start gap-3">
-        <div @click="isOpen = !isOpen" class="w-full flex items-center justify-between cursor-pointer">
-            <span class="font-semibold text-[#434A5B]">تصنيفات المنتجات</span>
-            <svg :class="isOpen ? 'rotate-180' : ''" width="24" height="25" viewBox="0 0 24 25" fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd"
-                d="M6.2762 9.15125C6.6345 8.80674 7.20424 8.81791 7.54875 9.1762L12 13.9015L16.4513 9.1762C16.7958 8.81791 17.3655 8.80674 17.7238 9.15125C18.0821 9.49576 18.0933 10.0655 17.7488 10.4238L12.6488 15.8238C12.4791 16.0003 12.2448 16.1 12 16.1C11.7552 16.1 11.5209 16.0003 11.3513 15.8238L6.25125 10.4238C5.90674 10.0655 5.91791 9.49576 6.2762 9.15125Z"
-                fill="#434A5B" stroke="#434A5B" stroke-width="0.25" stroke-linecap="round"
-                stroke-linejoin="round" />
-        </svg>
-        </div>
-        <div x-show="isOpen" x-collapse class="w-full  flex flex-wrap gap-2">
-            <template x-for="item in filterData?.filters?.categories">
-                <div @click="toggleFilterCategory(item.id)"
-                    :class="setFilterCategory.includes(item.id) ? 'border-mainColor' : ''"
-                    class="cursor-pointer flex  truncate gap-1 items-center py-1 px-[10px] rounded-full border border-[#E5E5E5]">
-                    <div class="w-max">
-                        <span x-effect="console.log('filterData', item)"></span>
-                        <span :class="setFilterCategory.includes(item.id) ? 'bg-mainColor text-white' : ''"
-                            class="w-5 h-5 rounded-full border border-[#E5E5E5] flex items-center justify-center">
-                            <i x-show="setFilterCategory.includes(item.id)"
-                                class="fi flex items-center text-xs font-bold fi-rr-check"></i>
-                        </span>
-                    </div>
-                    <div class="truncate">
-                        <span x-text="item.title" class="text-[#434A5B] text-sm truncate"></span>
-                    </div>
-                </div>
-            </template>
-        </div>
+<div  class="relative">
+  <div x-data="{ open :   false }" x-show="context.filters.categories.length > 0"
+    class=" rounded-mainRadius border border-neutral200 p-4 flex flex-col items-start gap-3">
+    <div @click="open = !open" class="w-full flex items-center justify-between cursor-pointer">
+      <span class="font-semibold text-customBlack">تصنيفات المنتجات</span>
+      <svg :class="modal.type === 'filterCategory' && modal.open ? 'rotate-180' : ''" width="24" height="25" viewBox="0 0 24 25" fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+          d="M6.2762 9.15125C6.6345 8.80674 7.20424 8.81791 7.54875 9.1762L12 13.9015L16.4513 9.1762C16.7958 8.81791 17.3655 8.80674 17.7238 9.15125C18.0821 9.49576 18.0933 10.0655 17.7488 10.4238L12.6488 15.8238C12.4791 16.0003 12.2448 16.1 12 16.1C11.7552 16.1 11.5209 16.0003 11.3513 15.8238L6.25125 10.4238C5.90674 10.0655 5.91791 9.49576 6.2762 9.15125Z"
+          fill="#434A5B" stroke="#434A5B" stroke-width="0.25" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
     </div>
+    <div  x-show="open" x-collapse class="w-full flex flex-wrap gap-2">
+      <template x-for="item in context.filters.categories" :key="item.id">
+        <div @click="toggleFilterCategory(item)"
+          :class="FilterCategoryItems.some(i => i.id === item.id) || item.id == context.category.id ? 'border-mainColor' : ''"
+          class="cursor-pointer flex truncate gap-1 items-center p-1 pl-[10px]  rounded-mainRadius border border-neutral200">
+          <div class="w-max">
+            <span :class="FilterCategoryItems.some(i => i.id === item.id) || item.id == context.category.id ? 'bg-mainColor text-white' : ''"
+              class="w-5 h-5 rounded-mainRadius border border-neutral200 flex items-center justify-center">
+              <i x-show="FilterCategoryItems.some(i => i.id === item.id) || item.id == context.category.id"
+                class="fi flex items-center text-xs font-bold fi-tr-check-double"></i>
+            </span>
+          </div>
+          <div class="truncate">
+            <span x-text="item.title" class="text-customBlack text-sm truncate"></span>
+          </div>
+        </div>
+      </template>
+      
+    </div>
+  </div>
 </div>
+<script src={{"filterCategory.js" | assets}}></script>

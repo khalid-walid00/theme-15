@@ -1,68 +1,56 @@
-<div x-bind:class="Modal.open && Modal.type === 'filter' ? '!left-0' : 'left-[-120%] md:left-[-100%]'" class="h-full fixed z-[102] left-[-120%] md:left-[-100%] md:w-[360px] w-full xs:w-9/12 flex flex-col gap-4
-    bg-white top-0 transition-all duration-300 pb-6">
-    <div class="flex flex-col h-full  gap-6">
-        <div class="flex bg-white border-b border-[#E5E6E6] justify-between p-4 sticky top-0">
-            <div class=" flex  gap-2 items-center">
-                <p class="text-[#313535] text-xl  font-bold">تصفية حسب</p>
-            </div>
-            <button aria-label="فتح السلة"
-                class=" bg-[#F5F6F6] border border-[#ECEEEE] w-[24px] h-[24px] flex items-center justify-center"
-                @click="toggle('filter')">
-                <i class="fi flex items-center fi-rr-cross-small"></i>
-            </button>
-        </div>
+<script src="{{'filterProperties.js' | assets}}"></script>
+<div q-panel="filter" q-panel-position="left" q-panel-direction="left"
+  class="hidden md:w-[360px] w-full xs:w-9/12 flex-col gap-4 bg-white">
+  <div class="flex flex-col h-full gap-6">
 
-        <div class="flex flex-col gap-4 px-6 overflow-y-auto " x-data="{ 
-            selectedFilters: {
-                color: [],
-                texts: []
-            },
-            globalProperties: [],
-            addFilter(type, value) {
-                if (!this.selectedFilters[type]) {
-                    this.selectedFilters[type] = [];
-                }
-        
-                if (this.selectedFilters[type].includes(value)) {
-                    this.selectedFilters[type] = this.selectedFilters[type].filter(f => f !== value);
-                } else {
-                    this.selectedFilters[type].push(value);
-                }
-        
-                this.updateFilters();
-            },
-        
-            updateFilters() {
-                this.globalProperties = [
-                    ...new Set([
-                        ...this.selectedFilters.colors,
-                        ...this.selectedFilters.texts
-                    ])
-                ];
-        
-                const mergedFilters = {
-                    properties: this.globalProperties
-                };
-        
-                filterProducts(mergedFilters);
-            },
-        
-            isSelected(type, value) {
-                return this.selectedFilters[type]?.includes(value);
-            }
-        }"
-        >
-        <div  x-show="decodeURIComponent(window?.location?.pathname?.split('/')[1]) == 'category'">
-            {% include "common/static/filterCategory/index.njk" ignore missing %}
-        </div>
-            {% include "common/static/priceing/index.njk" ignore missing %}
-            {% include "common/static/filterColor/index.njk" ignore missing %}
-            {% include "common/static/filterText/index.njk" ignore missing %}
-            
-        </div>
+    <!-- Header -->
+    <div class="flex bg-white border-b border-[#E5E6E6] justify-between p-4 sticky top-0">
+      <div class="flex gap-2 items-center">
+        <p class="text-[#313535] text-xl font-bold">تصفية حسب</p>
+      </div>
+      <button aria-label="إغلاق التصفية"
+        class="w-[24px] h-[24px] flex items-center justify-center"
+        q-toggle="filter">
+        <i class="fi flex items-center fi-tr-x font-bold"></i>
+      </button>
     </div>
-</div>
-<!-- خلفية التعتيم -->
-<div x-show="Modal.open && Modal.type === 'filter'" @click="toggle('filter')"
-    class="bg-black bg-opacity-50 transition-all duration-300 fixed top-0 left-0 w-screen h-screen z-[101]">
+
+    <!-- Filter Content -->
+    <div class="flex flex-col gap-6 px-6 overflow-y-auto"
+      x-data="xDataPropertiesFilter()">
+    <div class=" flex gap-[10px]">
+       <div class="pb-1 flex scrollbar-custom overflow-auto flex-1">
+        <template x-for="item in selectedFilters.colors ">
+          <div class=" flex gap-1 border-l border-neutral200 pl-2">
+            
+            <i  @click="addFilter('colors', item)" class="fi flex items-center fi-tr-x text-xs"></i>
+            <span x-text="item.title" class=" text-sm font-semibold  text-nowrap"></span>
+          </div>
+        </template>
+        <template x-for="item in FilterCategoryItems ">
+          <div class=" flex gap-1 border-l border-neutral200 pl-2">
+            <i @click="toggleFilterCategory(item)" class="fi cursor-pointer fi-tr-x text-xs"></i>
+            <span x-text="item.title" class=" text-sm font-semibold  text-nowrap"></span>
+          </div>
+        </template>
+        <template x-for="item in selectedFilters.texts ">
+          <div class=" flex gap-1 border-l border-neutral200 pl-2">
+            <i  @click="addFilter('texts', item)" class="fi cursor-pointer fi-tr-x text-xs"></i>
+            <span x-text="item.title" class=" text-sm font-semibold  text-nowrap"></span>
+          </div>
+        </template>
+       </div>
+       <div x-show="selectedFilters.colors.length || FilterCategoryItems.length || selectedFilters.texts.length" @click="clearAllFilters()" class="flex items-center cursor-pointer gap-1">
+         <i class="fi fi-tr-x text-xs  text-red-600"></i>
+         <span class=" text-red-600 font-semibold">الغاء الكل</span>
+       </div>
+    </div>
+    
+      {% include "../filterCategory/index.njk" ignore missing %}
+      {% include "../priceing/index.njk" ignore missing %}
+      {% include "../filterColor/index.njk" ignore missing %}
+      {% include "../filterText/index.njk" ignore missing %}
+
+    </div>
+  </div>
 </div>

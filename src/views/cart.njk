@@ -1,162 +1,221 @@
 {% extends "layouts/layout.njk" %}
+{# initial-scroll #}
 {% block content %}
-<div class="py-6" >
-    <div x-show="cart?.items?.length > 0" class=" flex flex-col gap-6 container md:px-4">
-        <div class=" flex flex-col gap-2">
-            {# <qumra-animation  animation="slide-right"> #}
-                <h1 x-text="context.page.title" class=" font-bold text-2xl text-customBlack"></h1>
-            {# </qumra-animation> #}
+<div class="md:py-[60px] py-8 container " x-data="xDataCart()">
+    <div x-show="cart?.items && cart?.items?.length > 0" class="flex flex-col gap-8 md:gap-[60px]">
+        <div x-show="cart?.items?.length > 0">
+            <div class=" flex flex-col items-center gap-2">
+                <span class=" font-light">الرئيسية / عربة التسوق</span>
+                <h1 x-text="context.page.title" class=" font-bold text-2xl md:tex text-customBlack"></h1>
+            </div>
         </div>
-        <div class=" flex md:flex-row flex-col gap-[20px] lg:gap-[43px]">
-            <div style="border-radius:  20px;" class=" bg-white initial-scroll  md:w-2/3   flex flex-col gap-6">
-                {# <input type="hidden" name="cartItem" value="{{item._id}}"> #}
-                <template x-for="item in cart?.items" :key="index">
-                    {# <qumra-animation duration="" always="true" animation="slide-right"> #}
-                    <div class="w-full relative  md:gap-[115px]  flex items-center  rounded-lg
-                          shadow-[0px_0px_25px_#D7D7D780] p-3 md:p-[20px]">
-                        <div class=" flex items-center flex-row  gap-3 md:gap-4 ">
-                            <div class=" w-max">
-                                <img :src="item?.product?.images[0]?.imageUrl"
-                                    class="w-[55px] h-[55px] md:w-[60px] md:h-[60px]"
-                                    style=" object-fit: contain; border-radius: 50%;" alt="صورة المنتج">
-                            </div>
-                            <div class=" flex flex-col  md:flex-row md:items-center md:gap-8 gap-1">
-                                <div class="  flex flex-col justify-end  md:items-center md:justify-center">
-                                    <div class="text-customBlack md:w-[113px] ">
-                                        <div class=" w-full  text-nowrap"
-                                            x-text="item.product.title.length > 18 ? item.product.title.slice(0, 18) + '...' : item.product.title">
+
+
+        <div class=" flex lg:flex-row  flex-col gap-8 lg:gap-10">
+            <div class="border h-max border-neutral200 bg-white lg:w-2/3">
+                <div class="py-5 px-4 border-b">
+                    <p class=" text-sm font-semibold">أضف <span class=" text-mainColor"> 800 ج.م</span> إلى مشترياتك
+                        لتحصل على الشحن مجانًا!</p>
+                    <div class="h-2 my-3 relative rounded-full bg-neutral100 flex items-center">
+                        <div class="h-2 w-4/12 rounded-r-full bg-mainColor"></div>
+                        <div class="p-2 rounded-full border border-mainColor flex items-center justify-center">
+                            <i class="fi scale-x-[-1] text-mainColor  fi-tr-shipping-fast"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <template x-for="item in cart.items" :key="item._id">
+                        <a :href="/product/${item?.product?.slug}"
+                            class="border-b last:border-none border-neutral200  pb-4">
+                            <div class="flex justify-between gap-2 p-3">
+                                <div class=" flex gap-4">
+                                    <div class="w-[70px] h-[70px]">
+                                        <img :src="item?.product?.images[0]?.imageUrl" alt="صورة المنتج" loading="lazy"
+                                            class=" w-full h-full object-cover rounded">
+                                    </div>
+                                    <div class="flex flex-col gap-2">
+                                        <div class="flex flex-col gap-1">
+                                            <p x-text="item.product.title" class=" truncate w-full font-bold"></p>
+                                            {# <span class=" text-sm text-neutral400">الحجم : صغير</span> #}
+                                            <qumra-product-options class="w-full"
+                                                :main-color="data.app.settings.mainColor" :product="item.product._id"
+                                                :data="item.product.properties"></qumra-product-options>
+                                            <div class="flex items-center w-full flex-wrap gap-1">
+                                                <p x-text="item.priceAfterDiscount"
+                                                    class="text-nowrap font-bold text-mainColor"></p>
+                                                <p x-show="+item.discount > 0" x-text="item.price"
+                                                    :class="item.discount > 0 ? 'line-through' : ''"
+                                                    class="text-nowrap text-sm text-neutral400"></p>
+                                            </div>
+                                            <div class=" flex w-[84px] h-6 items-center gap-[6px]">
+                                                <span
+                                                    class=" border border-neutral200 flex w-full h-full items-center justify-center   cursor-pointer"
+                                                    @click="increaseCartItem(item._id, item.quantity)"><svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M10 5.78894L10 15.7889M15 10.7889L5 10.7889" stroke="black" stroke-linecap="round"/>
+                                                        </svg>
+                                                        </span>
+                                                <span
+                                                    class="w-full h-full text-customBlack flex items-center justify-center"
+                                                    x-text="item.quantity"></span>
+                                                <span
+                                                    class=" border border-neutral200 flex w-full h-full items-center justify-center  cursor-pointer"
+                                                    @click="decreaseCartItem(item._id,item.quantity)"><svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M16 10.7889L4 10.7889" stroke="black" stroke-linecap="round"/>
+                                                        </svg>
+                                                        </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="text-[#929292]">
-                                    <template x-if="item.properties && item.properties.length > 0">
-                                        <template x-for="prop in item.properties" :key="prop.property">
-                                            <span class="text-nowrap">
-                                                <span x-text="prop.property"></span> : <span
-                                                    x-text="prop.value.title"></span>
-                                            </span>
-                                        </template>
-                                    </template>
-                                </div>
-                                <div
-                                    class="text-customBlack flex  md:w-[108px] justify-end md:justify-center md:justify-self-end font-[600] place-self-center">
-                                    <div class=" flex items-center gap-1">
-                                        <p x-text="item.totalPriceForItem"
-                                            class=" text-nowrap font-bold text-[#434A5B]">
-                                        </p>
-                                        <p x-show="+item.discount > 0" x-text="item.totalPriceForItemBeforeDiscount"
-                                            :class="item.discount > 0 ? 'line-through' : ''"
-                                            class=" text-nowrap  text-xs text-[#929A9A]">
-                                        </p>
-                                    </div>
-                                </div>
-
+                                <span>
+                                    <i @click="clearCartItem(item._id)"
+                                        class="fi flex items-center justify-center text-[18px] text-neutral400 cursor-pointer fi-tr-trash"></i>
+                                </span>
                             </div>
-                        </div>
-                        <div
-                            class=" w-1/2 flex md:flex-row flex-col-reverse gap-4 items-end md:items-center justify-between md:w-full  ">
-
-                            <div class=" flex justify-end ">
-                                <div class="md:w-[108px] md:h-[32px] w-[84px] h-[24px]">
-                                    <qumra-quantity-input size="100%" :item="item._id" :value="item.quantity">
-                                    </qumra-quantity-input>
-                                </div>
-                            </div>
-                            <div class=" flex    justify-end gap-4">
-                                <button @click="window.Qumra.cart.clearCartItem(item._id)" aria-label="إضافة إلى السلة">
-                                    <span
-                                        class=" bg-[#F2F2F2] hover:scale-105 transition-all duration-300 rounded-full w-[32px] h-[32px] flex items-center justify-center ">
-                                        <i
-                                            class="fi flex items-center cursor-pointer justify-center text-[18px] text-red-600 fi-rr-trash"></i>
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-
-
+                        </a>
+                    </template>
+                </div>
+                <div class="max-md:hidden">
+                    <div class="grid border-b border-neutral200  grid-cols-6">
+                        <div class=" col-span-2 text-customBlack text-xl font-bold p-4">المنتج</div>
+                        <div class="text-customBlack text-xl font-bold p-4">السعر</div>
+                        <div class="text-customBlack text-xl font-bold p-4">الكمية</div>
+                        <div class="text-customBlack text-xl font-bold p-4">الاجمالي</div>
                     </div>
-                    {# </qumra-animation> #}
-                </template>
+                    <template x-for="item in cart.items" :key="item._id">
+
+                        <a :href="/product/${item?.product?.slug}"
+                            class=" border-b  border-neutral200 grid items-center  grid-cols-6">
+                            <div class=" col-span-2 p-4 flex items-center  gap-3">
+                                <div class="w-[60px] h-[60px]">
+                                    <img :src="item?.product?.images[0]?.imageUrl" alt="صورة المنتج" loading="lazy"
+                                        class=" w-full h-full object-cover rounded">
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <p class=" text-customBlack font-bold">كريم بشرة</p>
+                                    <span class=" text-neutral400">الحجم : صغير</span>
+                                </div>
+                            </div>
+                            {# <div class="text-mainColor font-bold p-4">250 ج.م</div> #}
+                            <div class="flex items-center w-full flex-wrap gap-1">
+                                <p x-text="item.priceAfterDiscount" class="text-nowrap font-bold text-mainColor"></p>
+                                <p x-show="+item.discount > 0" x-text="item.price"
+                                    :class="item.discount > 0 ? 'line-through' : ''"
+                                    class="text-nowrap text-sm text-neutral400"></p>
+                            </div>
+                            <div class=" flex w-[105px] border h-10 items-center gap-2">
+                                <span class=" flex w-full h-full items-center justify-center   cursor-pointer"
+                                    @click="increaseCartItem(item._id, item.quantity)"><svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M10 5.78894L10 15.7889M15 10.7889L5 10.7889" stroke="black" stroke-linecap="round"/>
+                                        </svg>
+                                        </span>
+                                <span class="w-full h-full text-customBlack flex items-center justify-center"
+                                    x-text="item.quantity"></span>
+                                <span class=" flex w-full h-full items-center justify-center  cursor-pointer"
+                                    @click="decreaseCartItem(item._id,item.quantity)"><svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M16 10.7889L4 10.7889" stroke="black" stroke-linecap="round"/>
+                                        </svg>
+                                        </span>
+                            </div>
+                            <div class="flex items-center w-full flex-wrap gap-1">
+                                <p x-text="item.totalPriceForItem" class="text-nowrap font-bold text-mainColor"></p>
+                                <p x-show="+item.discount > 0" x-text="item.totalPriceForItemBeforeDiscount"
+                                    :class="item.discount > 0 ? 'line-through' : ''"
+                                    class="text-nowrap text-sm text-neutral400"></p>
+                            </div>
+                            <div class="p-4">
+                                <span>
+                                    <i @click="clearCartItem(item._id)"
+                                        class="fi flex items-center justify-center text-[18px] text-neutral400 cursor-pointer fi-tr-trash"></i>
+                                </span>
+                            </div>
+                        </a>
+                    </template>
+                </div>
 
             </div>
-            <div class="md:w-1/3 flex flex-col items-center gap-6">
+
+            <div class="lg:w-1/3 flex flex-col items-center gap-6">
                 <div class="w-full">
-                {# <qumra-animation  always="true" animation="zoom"> #}
-                <div class="bg-white w-full shadow-[0px_0px_25px_#D7D7D780]  rounded-lg h-max "
-                    style="padding:16px 26px 25px ;">
-                    <div class=" flex flex-col gap-8">
-                        <div class=" flex flex-col gap-4">
+                    <div class="bg-white w-full border border-mainColor h-max  py-6 px-5">
+                        <div class=" flex flex-col gap-6">
                             <div class=" flex flex-col gap-4">
-                                <div class="font-bold text-customBlack">
-                                    اجمالي الطلب
+                                <div class=" flex flex-col gap-4">
+                                    <div class="font-bold text-customBlack">
+                                        اجمالي الطلب
+                                    </div>
+                                    <div class=" border-b flex w-full"></div>
                                 </div>
-                                <div class=" border-b border-dashed flex w-full"></div>
-                            </div>
-                            <div class=" flex flex-col gap-3">
-                                <div class=" flex justify-between">
-                                    <span class=" font-bold  text-subColor text-base">اجمالي المنتجات</span>
-                                    <span x-show="cart?.totalProducts" class=" font-bold text-customBlack"
-                                        x-text="cart?.totalProducts">
-                                        0
-                                    </span>
+                                <div class=" flex flex-col gap-3">
+                                    <div class=" flex justify-between">
+                                        <span class="  text-customBlack text-base">اجمالي المنتجات</span>
+                                        <span x-show="cart?.totalProducts" class="  text-customBlack"
+                                            x-text="cart?.totalProducts">
+                                            0
+                                        </span>
+                                    </div>
+                                    <div class=" flex justify-between">
+                                        <span class=" text-customBlack text-base">توفير</span>
+                                        <span class="  text-customBlack" x-text="cart?.productDiscount">
+                                            0
+                                        </span>
+                                    </div>
+                                    <div class=" flex justify-between">
+                                        <span class="   text-customBlack text-base">سعر المنتحات النهائي</span>
+                                        <span class="  text-customBlack" x-text="cart?.totalProductsAfterDiscount">
+                                            0
+                                        </span>
+                                    </div>
                                 </div>
+                                <div class=" border-b flex w-full"></div>
                                 <div class=" flex justify-between">
-                                    <span class=" font-bold  text-subColor text-base">توفير</span>
-                                    <span class=" font-bold text-customBlack" x-text="cart?.productDiscount">
-                                        0
-                                    </span>
-                                </div>
-                                <div class=" flex justify-between">
-                                    <span class=" font-bold  text-subColor text-base">سعر المنتحات النهائي</span>
+                                    <span class=" font-bold text-xl">الإجمالي</span>
                                     <span class=" font-bold text-customBlack" x-text="cart?.totalProductsAfterDiscount">
                                         0
                                     </span>
                                 </div>
-                                {# {%if context.cart.couponDiscount > 0 %}
-                                <div class=" flex justify-between">
-                                    <span class=" font-bold  text-subColor text-base">كود خصم
-                                        ({{context.cart.coupon.code}})</span>
-                                    <span class=" font-bold text-customBlack">
-
-                                        {{context.cart.couponDiscount}}
-
-                                    </span>
-                                </div>
-                                {%endif%} #}
                             </div>
-                            <div class=" border-b border-dashed flex w-full"></div>
-                            <div class=" flex justify-between">
-                                <span class=" font-bold  text-subColor text-base">الإجمالي</span>
-                                <span class=" font-bold text-customBlack" x-text="cart?.totalProductsAfterDiscount">
-                                    0
-                                </span>
-                            </div>
+
+                            <button :disabled="loading.checkout" aria-label="اتمام الطلب" @click="checkout()"
+                                class="py-[13px] px-6 rounded-mainRadius w-full bg-mainColor">
+                                <span class=" font-bold text-white " x-show="!loading.checkout"> اتمام الطلب</span>
+                                <template x-if="loading.checkout">
+                                    <div class=" flex justify-center ">
+                                        <qumra-loading color="white" loading-size="20px" loading={true}></qumra-loading>
+                                    </div>
+                                </template>
+                            </button>
+
                         </div>
-
-                        <button :disabled="checkoutLoading" aria-label="اتمام الطلب" @click="Qumra.order.checkout()" :disabled="couponLoading" :class="couponLoading ? 'bg-gray-400' : 'bg-mainColor'"
-                        class="py-2  rounded-mainRadius h-[42px] text-white w-full">
-                        <span x-show="!checkoutLoading"> اتمام الطلب</span>
-                        <template x-if="checkoutLoading">
-                            <div class=" flex justify-center ">
-                                <qumra-loading color="white" loading-size="20px" loading={true}></qumra-loading>
-                            </div>
-                        </template>
-                    </button>
-                    
                     </div>
                 </div>
-
-            {# </qumra-animation> #}
             </div>
+
         </div>
+
+
+        <div x-show="context.relatedProducts.data.length > 0" class=" flex flex-col gap-6 ">
+            <h2 class=" font-bold text-2xl text-customBlack">منتجات قد تعجبك</h2>
+            <div class="relative w-full">
+                <qumra-slider-multi :navigation-color="data.app.settings.mainColor" :slides-per-view="5"
+                    :space-between="10">
+                    <template x-for="item in context.relatedProducts.data" :key="item.id">
+                        <qumra-slider-item>
+                            <qumra-product-card :product="JSON.stringify(item)"></qumra-product-card>
+                        </qumra-slider-item>
+                    </template>
+
+                </qumra-slider-multi>
+            </div>
 
         </div>
 
     </div>
 
+
     <div x-show="cart?.items && cart?.items?.length === 0" class=" w-full h-screen flex justify-center items-center">
         <div class="flex flex-col items-center gap-2">
-            <i class="fi flex items-center text-9xl text-[#777777] fi-rr-box-open"></i>
+            <i class="fi flex items-center text-9xl text-[#777777] fi-tr-box-open"></i>
             <div class=" font-bold text-[#777777] text-[32px]">سلتك فارغة</div>
         </div>
 
@@ -164,3 +223,4 @@
 
 </div>
 {% endblock %}
+<script src={{"cart.js" | assets}}></script>

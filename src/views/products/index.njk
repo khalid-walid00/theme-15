@@ -1,56 +1,86 @@
 {% extends "layouts/layout.njk" %}
 {% block content %}
-<div class=" min-h-screen justify-center flex flex-col gap-10 container pb-10 pt-8 md:pt-[60px]">
-    <div class=" flex md:flex-row flex-col justify-between gap-4 md:items-center">
+<div class=" justify-center  flex flex-col md:gap-10 gap-6 container pb-10 pt-8 md:pt-[60px]"  x-data="xDataproduct()">
 
-        <div x-show="products.length > 0" class="flex flex-col gap-2">
-            <qumra-animation always="false" animation="slide-right fade">
-                <h1 x-text="context.page.title" class="font-bold text-2xl"></h1>
-                <p x-show="context?.search?.q" class="text-subColor">
-                    نتائج البحث عن: "<span x-text='context?.search?.q'></span>"
-                </p>
+    <div class=" flex  flex-col gap-6 justify-between w-full">
+        <div x-show="!loading.page && .length > 0" class="flex flex-col gap-2">
+            <qumra-animation always="false" animation="slide-top fade">
+                <div class=" flex flex-col gap-1">
+                    <span class=" text-customBlack font-light  text-center">الرئيسية / المنتجات</span>
+                    <h1 x-text="context.page.title" class="font-extrabold text-center text-2xl md:text-[32px]"></h1>
+                    <p x-show="context?.search?.q" class="text-subColor">
+                        نتائج البحث عن: "<span x-text='context.search.q'></span>"
+                    </p>
+                </div>
             </qumra-animation>
         </div>
-
-
-        <div class=" flex items-center gap-5">
-            <div class=" flex items-center gap-2">
-                عرض :
+        <div class=" flex md:flex-row flex-col gap-6 justify-between">
+            <div class=" flex items-center gap-6 md:gap-4">
+                <button q-toggle="filter"
+                    class=" active:bg-neutral200 transition-all duration-300 bg-white border border-neutral200 h-[40px] w-[40px] flex items-center justify-center">
+                    <i class="fi text-xl text-mainColor flex items-center fi-tr-filter"></i>
+                </button>
+                {% include "common/static/sort/index.njk" ignore missing %}
                 {% include "common/static/limit/index.njk" ignore missing %}
             </div>
-            {% include "common/static/sort/index.njk" ignore missing %}
-            <button @click="toggle('filter')"
-                class=" border border-[#D8D8D8] h-[45px] w-[45px] flex items-center justify-center rounded">
-                <i class="fi text-lg text-mainColor flex items-center fi-rr-filter"></i>
-            </button>
-        </div>
+            <div class=" flex justify-between items-center gap-6">
+                <div class=" text-customBlack font-bold">عرض 1 - <span x-text="context.pagination.limit"></span> من
+                    <span x-text="context.pagination.totalCount"></span> منتج
+                </div>
+                <div class="flex items-center gap-3 ">
+                    <div :class="gridSystem === 'grid-cols-1' ? 'bg-mainColor' : ''"
+                        @click="updateGridSystem('grid-cols-1')"
+                        class=" md:hidden border cursor-pointer border-neutral200 active:bg-mainColor pb-[7px] px-3 w-[40px] h-[40px] flex items-end justify-center">
+                        <i class="fi fi-tr-tally-3  rotate-90  text-xl  text-neutral300"
+                            :class="gridSystem === 'grid-cols-1' ? 'text-white' : ''"></i>
+                    </div>
 
+                    <div :class="gridSystem === 'lg:grid-cols-4  sm:grid-cols-3 grid-cols-2' ? 'bg-mainColor' : ''"
+                        @click="updateGridSystem('lg:grid-cols-4  sm:grid-cols-3 grid-cols-2')"
+                        class=" max-lg:hidden border cursor-pointer border-neutral200 active:bg-mainColor py-[10px] px-3 w-[40px] h-[40px] flex items-center justify-center">
+                        <i class="fi fi-tr-tally-4 text-xl  text-neutral300"
+                            :class="gridSystem === 'lg:grid-cols-4  sm:grid-cols-3 grid-cols-2' ? 'text-white' : ''"></i>
+                    </div>
+                    <div :class="gridSystem === 'sm:grid-cols-3 grid-cols-2' ? 'bg-mainColor' : ''"
+                        @click="updateGridSystem('sm:grid-cols-3 grid-cols-2')"
+                        class=" max-md:hidden border cursor-pointer border-neutral200 active:bg-mainColor py-[10px] px-3 w-[40px] h-[40px] flex items-center justify-end">
+                        <i class="fi fi-tr-tally-3  text-xl  text-neutral300"
+                            :class="gridSystem === 'sm:grid-cols-3 grid-cols-2' ? 'text-white' : ''"></i>
+                    </div>
+                    <div :class="gridSystem === 'grid-cols-2' ? 'bg-mainColor' : ''"
+                        @click="updateGridSystem('grid-cols-2')"
+                        class="border cursor-pointer border-neutral200 active:bg-mainColor py-[10px] pl-3 w-[40px] h-[40px] flex items-center justify-end">
+                        <i class="fi fi-tr-tally-2 text-xl  text-neutral300 mx-auto"
+                            :class="gridSystem === 'grid-cols-2' ? 'text-white' : ''"></i>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
     </div>
+
     <div class=" flex flex-col gap-6">
         <div class="min-h-screen">
-            <p x-text="context.test">00000</p>
-            <span x-effect="console.log('globalData  test', context.test)"></span>
-
-            <div x-show="!pageLoading && products.length > 0"
-                class="grid xl:grid-cols-5 lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-3 lg:gap-6">
+            <div x-show=" !loading.page && context.products.length > 0" :class="gridSystem"
+                class="grid  gap-3 lg:gap-6">
                 {% include "common/components/card/index.njk" ignore missing %}
             </div>
         </div>
-        <div x-show="pageLoading" class=" flex h-screen items-center justify-center ">
+        <div x-show="loading.page" class=" flex h-screen items-center justify-center ">
             <qumra-loading loading-size="24px" loading={true}></qumra-loading>
         </div>
-        <div x-show="products.length > 0" class=" w-full flex items-center justify-center">
+        <div x-show="context.products.length > 0" class=" w-full flex h-max items-center justify-center">
             {% include "common/static/pagination/index.njk" ignore missing %}
         </div>
-
     </div>
-    <div x-show="products.length == 0" class="flex min-h-screen flex-col items-center justify-center gap-3">
-        <i style="font-size: 7rem" class="fi flex items-center fi-rr-drawer-empty"></i>
+
+    <div x-show="context.products.length == 0" class="flex min-h-screen flex-col items-center justify-center gap-3">
+        <i style="font-size: 7rem" class="fi flex items-center fi-tr-drawer-empty"></i>
         <div class="text-[#777777] text-[32px] font-bold">لا توجد نتائج</div>
     </div>
 
 </div>
 
-{% include "common/static/filter/index.njk" ignore missing %}
 
 {% endblock %}

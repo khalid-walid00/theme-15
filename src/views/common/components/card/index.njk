@@ -1,150 +1,100 @@
-<template x-for="item in context.products">
-
-    <div class="flex flex-col gap-3 pb-4 h-full shadow-[0px_0px_10px_#E4E4E4]">
-        <a :href="item.slug ? `/product/${item.slug}` : '#'">
-            <div class="overflow-hidden relative">
-                <img class="hover:scale-105 w-full transition-all duration-300 object-cover h-[160px]"
-                    :src="item.images[0].imageUrl"
-                    alt="صورة المنتج" />
-                <span x-show="item.discount >0"
-                    class="absolute top-[10px] right-[10px] py-[2px] px-2 bg-mainColor text-white text-sm">
-                    <span x-text=" - + item.discount"></span>
-                    <span x-text="item.discountType == 'percent' ? '%' : data.app.currency.currencySymbol "></span>
-                </span>
-            </div>
-        </a>
-
-        <div class="px-3 flex flex-col gap-4 h-full justify-between ">
-            <a :href="item.slug ? `/product/${item.slug}` : '#'" class="flex flex-col gap-1">
-                <p x-text="item.title" class="text-[#313535] h-11 font-bold overflow-hidden  text-base break-words">
-
-                </p>
-                <div x-show="item.rate > 0" class="flex items-center gap-[6px]">
-                    <div class=" flex items-center gap-1">
-                        <template x-for="star in 5">
-                            <svg width="10" height="11" viewBox="0 0 10 11" fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                :class="star <= Math.round(item.rate) ? 'fill-[#FFD401]' : 'fill-[#E4E4E4]'">
-                                <g clip-path="url(#clip0_10875_56521)">
-                                    <path
-                                        d="M5.24251 0.670749L6.521 3.80482L9.76563 4.10884C9.81686 4.11324 9.86571 4.13346 9.90601 4.16694C9.94632 4.20043 9.97627 4.24568 9.99211 4.297C10.0079 4.34832 10.009 4.40341 9.99501 4.45533C9.98107 4.50725 9.95279 4.55368 9.91374 4.58877L7.45768 6.83471L8.18197 10.1652C8.18953 10.2002 8.19044 10.2364 8.18462 10.2718C8.17881 10.3071 8.1664 10.3409 8.1481 10.3713C8.1298 10.4016 8.10597 10.4278 8.07799 10.4484C8.05 10.469 8.01841 10.4836 7.98503 10.4914C7.91597 10.5067 7.84396 10.4926 7.78483 10.4521L4.99756 8.70662L2.20296 10.4607C2.17377 10.4793 2.14136 10.4916 2.1076 10.497C2.07384 10.5023 2.03941 10.5006 2.00627 10.492C1.97314 10.4833 1.94197 10.4679 1.91455 10.4465C1.88713 10.4252 1.86401 10.3984 1.84652 10.3676C1.829 10.3375 1.81732 10.304 1.81215 10.2691C1.80699 10.2342 1.80843 10.1986 1.81641 10.1643L2.5415 6.83386L0.0887044 4.58877C0.037148 4.54077 0.00555294 4.47349 0.000685514 4.40134C-0.00418191 4.3292 0.0180653 4.25792 0.0626627 4.20277C0.111814 4.14993 0.178676 4.11929 0.249023 4.11738L3.48145 3.81336L4.75993 0.670749C4.78055 0.621631 4.81434 0.579867 4.85718 0.550547C4.90003 0.521227 4.95007 0.505615 5.00122 0.505615C5.05237 0.505615 5.10242 0.521227 5.14526 0.550547C5.1881 0.579867 5.22189 0.621631 5.24251 0.670749Z" />
-                                </g>
-                                <defs>
-                                    <clipPath id="clip0_10875_56521">
-                                        <rect width="10" height="10" fill="white" transform="translate(0 0.5)" />
-                                    </clipPath>
-                                </defs>
-                            </svg>
-                        </template>
-                    </div>
-                    <span x-text="item.rateCount" class="text-[#6D7676] text-xs"></span>
-                </div>
-
-
-                <span x-show="item.rate == 0" class="text-[#6D7676] text-xs">لا يوجد تقيمات</span>
-
-                <div class="flex flex-wrap items-center gap-x-1">
-                    <div x-show="item.priceAfterDiscount >0" class="flex items-center">
-                        <span x-text="item.priceAfterDiscount" class="text-mainColor text-lg font-bold"></span>
-                        <span x-text="data.app.currency.currencySymbol" class="text-mainColor text-lg font-bold"></span>
-                    </div>
-                    <div x-show="item.discount >0" class="flex items-center gap-1">
-                        <span x-text="item.price" class="line-through text-[#6D7676] text-sm"></span>
-                        <span x-text="data.app.currency.currencySymbol" class="text-[#6D7676] text-lg font-bold"></span>
-                    </div>
+<template x-for="item in context.products" :key="item._id">
+        <div class="flex flex-col gap-3 pb-4 h-full shadow-[0px_0px_10px_0px_#E4E4E4]">
+            <a :href="item.slug ? `/product/${item.slug}` : '#'">
+                <div class="overflow-hidden relative">
+                    <img class="hover:scale-105 w-full transition-all duration-300 object-cover h-[160px]"
+                        :src="item.images[0].imageUrl"
+                        alt="صورة المنتج" />
+                    <span x-show="item.discount > 0"
+                        class="absolute top-[10px] right-[10px] py-[2px] px-2 bg-mainColor text-white text-sm">
+                        <span x-text="'-' + item.discount"></span>
+                        <span x-text="item.discountType == 'percent' ? '%' : data.app.currency.currencySymbol"></span>
+                    </span>
                 </div>
             </a>
-            <div 
-            class="flex gap-2 items-center w-full"
-            x-data="{
-                cartLoading: false,
-                priceAtCallLoadingCall: false,
-                priceAtCallLoadingWhatsApp: false,
-                addToCart(id) {
-                    this.cartLoading = true;
-                    window.Qumra.cart.addCartItem(id, 1)
-                        .then(() => {
-                            this.cartLoading = false;
-                        })
-                        .catch(() => {
-                            this.cartLoading = false;
-                        });
-                },
-                async priceAtCallMethod(type) {
-                    if (type === 'call') {
-                        this.priceAtCallLoadingCall = true;
-                    } else if (type === 'whatsapp') {
-                        this.priceAtCallLoadingWhatsApp = true;
-                    }
-        
-                    window.Qumra.product.productPriceAtCall(type)
-                        .then((res) => {
-                            if (res.type === 'whatsapp') {
-                                window.location.href = `https://wa.me/${res?.phone}`;
-                            } else {
-                                window.location.href = `tel:${res?.phone}`;
-                            }
-                        })
-                        .finally(() => {
-                            if (type === 'call') {
-                                this.priceAtCallLoadingCall = false;
-                            } else if (type === 'whatsapp') {
-                                this.priceAtCallLoadingWhatsApp = false;
-                            }
-                        });
-                }
-            }"
-        >
-            <!-- زر "أضف إلى السلة" -->
-            <button 
-                x-show="!item.privatePrice"
-                class="h-10 flex w-full cursor-pointer justify-center border-mainColor border text-mainColor rounded-mainRadius items-center gap-2"
-                @click="addToCart(item._id)"
-                :disabled="cartLoading"
-            >
-                <i x-show="!cartLoading" class="fi flex items-center fi-rr-shopping-cart"></i>
-                <span x-show="!cartLoading">أضف إلى السلة</span>
-                <div x-show="cartLoading"
-                    class="w-6 h-6 flex border-2 !border-t-transparent border-mainColor rounded-full animate-spin">
-                </div>
-            </button>
-        
-            <!-- أزرار "اتصال" و"واتساب" -->
-            <div x-show="item.privatePrice" class="flex flex-col gap-1 w-full">
-                <span class="text-[#6D7676] text-sm">السعر عند الاتصال:</span>
-                <div class="flex items-center gap-2">
-                    <button
-                        class="h-8 flex w-full cursor-pointer justify-center bg-[#20B038] text-white rounded-mainRadius items-center gap-2"
-                        @click="priceAtCallMethod('call')" 
-                        :disabled="priceAtCallLoadingCall"
-                    >
-                        <i x-show="!priceAtCallLoadingCall" class="fi flex items-center fi-rr-shopping-cart"></i>
-                        <span x-show="!priceAtCallLoadingCall">اتصال</span>
-                        <div x-show="priceAtCallLoadingCall"
-                            class="w-6 h-6 flex border-2 !border-t-transparent border-white rounded-full animate-spin">
+
+            <div class="px-3 flex flex-col gap-4 h-full justify-between">
+                <a :href="item.slug ? `/product/${item.slug}` : '#'" class="flex flex-col gap-1">
+                    <p x-text="item.title" class="text-[#313535] h-11 font-bold overflow-hidden text-base break-words"></p>
+                    <div x-show="item.rate > 0" class="flex items-center gap-[6px]">
+                        <div class="flex items-center gap-1">
+                            <template x-for="star in 5">
+                                <svg width="10" height="11" viewBox="0 0 10 11" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    :class="star <= Math.round(item.rate) ? 'fill-[#FFD401]' : 'fill-[#E4E4E4]'">
+                                    <g clip-path="url(#clip0_10875_56521)">
+                                        <path
+                                            d="M5.24251 0.670749L6.521 3.80482L9.76563 4.10884C9.81686 4.11324 9.86571 4.13346 9.90601 4.16694C9.94632 4.20043 9.97627 4.24568 9.99211 4.297C10.0079 4.34832 10.009 4.40341 9.99501 4.45533C9.98107 4.50725 9.95279 4.55368 9.91374 4.58877L7.45768 6.83471L8.18197 10.1652C8.18953 10.2002 8.19044 10.2364 8.18462 10.2718C8.17881 10.3071 8.1664 10.3409 8.1481 10.3713C8.1298 10.4016 8.10597 10.4278 8.07799 10.4484C8.05 10.469 8.01841 10.4836 7.98503 10.4914C7.91597 10.5067 7.84396 10.4926 7.78483 10.4521L4.99756 8.70662L2.20296 10.4607C2.17377 10.4793 2.14136 10.4916 2.1076 10.497C2.07384 10.5023 2.03941 10.5006 2.00627 10.492C1.97314 10.4833 1.94197 10.4679 1.91455 10.4465C1.88713 10.4252 1.86401 10.3984 1.84652 10.3676C1.829 10.3375 1.81732 10.304 1.81215 10.2691C1.80699 10.2342 1.80843 10.1986 1.81641 10.1643L2.5415 6.83386L0.0887044 4.58877C0.037148 4.54077 0.00555294 4.47349 0.000685514 4.40134C-0.00418191 4.3292 0.0180653 4.25792 0.0626627 4.20277C0.111814 4.14993 0.178676 4.11929 0.249023 4.11738L3.48145 3.81336L4.75993 0.670749C4.78055 0.621631 4.81434 0.579867 4.85718 0.550547C4.90003 0.521227 4.95007 0.505615 5.00122 0.505615C5.05237 0.505615 5.10242 0.521227 5.14526 0.550547C5.1881 0.579867 5.22189 0.621631 5.24251 0.670749Z" />
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_10875_56521">
+                                            <rect width="10" height="10" fill="white" transform="translate(0 0.5)" />
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </template>
                         </div>
-                    </button>
-        
-                    <button
-                        class="h-8 flex w-full cursor-pointer justify-center bg-[#2899F3] text-white rounded-mainRadius items-center gap-2"
-                        @click="priceAtCallMethod('whatsapp')" 
-                        :disabled="priceAtCallLoadingWhatsApp"
-                    >
-                        <i x-show="!priceAtCallLoadingWhatsApp" class="fi flex items-center fi-rr-shopping-cart"></i>
-                        <span x-show="!priceAtCallLoadingWhatsApp">واتساب</span>
-                        <div x-show="priceAtCallLoadingWhatsApp"
-                            class="w-6 h-6 flex border-2 !border-t-transparent border-white rounded-full animate-spin">
+                        <span x-text="item.rateCount" class="text-[#6D7676] text-xs"></span>
+                    </div>
+                    <span x-show="item.rate == 0" class="text-[#6D7676] text-xs">لا يوجد تقييمات</span>
+
+                    <div class="flex flex-wrap items-center gap-x-1">
+                        <div x-show="item.priceAfterDiscount > 0" class="flex items-center">
+                            <span x-text="item.priceAfterDiscount" class="text-mainColor text-lg font-bold"></span>
+                            <span x-text="data.app.currency.currencySymbol" class="text-mainColor text-lg font-bold"></span>
                         </div>
-                    </button>
+                        <div x-show="item.discount > 0" class="flex items-center gap-1">
+                            <span x-text="item.price" class="line-through text-[#6D7676] text-sm"></span>
+                            <span x-text="data.app.currency.currencySymbol" class="text-[#6D7676] text-lg font-bold"></span>
+                        </div>
+                    </div>
+                </a>
+                <div class="flex gap-2 items-center w-full">
+
+                    <button 
+                    x-show="!item.privatePrice"
+                    class="h-10 flex w-full cursor-pointer justify-center border-mainColor border text-mainColor rounded-mainRadius items-center gap-2"
+                    @click="addProductToCart(item._id, 1)"
+                    :disabled="isProductLoading(item._id)"
+                >
+                    <i x-show="!isProductLoading(item._id)" class="fi flex items-center fi-tr-shopping-cart"></i>
+                    <span x-show="!isProductLoading(item._id)">أضف إلى السلة</span>
+                    <div x-show="isProductLoading(item._id)"
+                        class="w-6 h-6 flex border-2 !border-t-transparent border-mainColor rounded-full animate-spin">
+                    </div>
+                </button>
+                
+                
+                    <div x-show="item.privatePrice" class="flex flex-col gap-1 w-full">
+                        <span class="text-[#6D7676] text-sm">السعر عند الاتصال:</span>
+                        <div class="flex items-center gap-2">
+                            <button
+                                class="h-8 flex w-full cursor-pointer justify-center bg-[#20B038] text-white rounded-mainRadius items-center gap-2"
+                                @click="priceAtCallMethod('call')" 
+                                :disabled="loading.priceAtCall"
+                            >
+                                <i x-show="!loading.priceAtCall" class="fi flex items-center fi-tr-shopping-cart"></i>
+                                <span x-show="!loading.priceAtCall">اتصال</span>
+                                <div x-show="loading.priceAtCall"
+                                    class="w-6 h-6 flex border-2 !border-t-transparent border-white rounded-full animate-spin">
+                                </div>
+                            </button>
+                            <button
+                                class="h-8 flex w-full cursor-pointer justify-center bg-[#2899F3] text-white rounded-mainRadius items-center gap-2"
+                                @click="priceAtCallMethod('whatsapp')" 
+                                :disabled="loading.priceAtCallWhatsApp"
+                            >
+                                <i x-show="!loading.priceAtCallWhatsApp" class="fi flex items-center fi-tr-shopping-cart"></i>
+                                <span x-show="!loading.priceAtCallWhatsApp">واتساب</span>
+                                <div x-show="loading.priceAtCallWhatsApp"
+                                    class="w-6 h-6 flex border-2 !border-t-transparent border-white rounded-full animate-spin">
+                                </div>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        
-        
-        
-
-        </div>
-    </div>
-
 </template>
+<script src={{"product.js" | assets}}></script>
+

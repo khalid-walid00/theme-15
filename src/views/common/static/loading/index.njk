@@ -1,5 +1,12 @@
-<div id="spinner-container" class="fixed top-0 left-0 z-[999999] w-screen h-screen flex flex-col items-center justify-center">
-   {# <img class="w-36 h-32 object-contain" :src="window.__qumra__?.data.app.logoUrl" alt="logo"> #}
-   <img class="w-36 h-32 object-contain" src={{global.app.logoUrl}} alt="logo">
-   <div class="w-8 h-8 border-loading rounded-full animate-spin"></div>
+<div id="spinner-container"
+   class="fixed top-0 left-0 z-[999999] w-screen h-screen flex flex-col items-center justify-center">
+   <div class=" relative flex flex-col gap-2">
+      <div class="w-20  absolute top-0 h-20 border-loading  animate-spin rounded-full">
+      </div>
+      <div class="w-20 h-20 p-3">
+         <img class=" w-full h-full object-contain rounded-full" src={{global.app.logoUrl}} alt="logo">
+      </div>
+      <div class=""><span class="animate-ping animate-delay-200">.</span><span class="animate-ping animate-delay-100 ">.</span><span class="animate-ping">.</span><span class="">.</span>Loading</div>
+   </div>
+
 </div>

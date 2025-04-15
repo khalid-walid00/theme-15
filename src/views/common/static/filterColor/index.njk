@@ -1,9 +1,9 @@
-<div x-data="{IsOpen: false}">
-    <div x-show="filterData.filters.properties.color..data.length > 0"
-        class="rounded-lg border border-[#E5E5E5] p-4 flex overflow-hidden flex-col items-start gap-3">
-        <div @click="IsOpen = !IsOpen" class="w-full flex items-center justify-between cursor-pointer">
-            <span class="font-semibold text-[#434A5B]">الألوان</span>
-            <svg :class="IsOpen ? 'rotate-180' : ''" width="24" height="25" viewBox="0 0 24 25" fill="none"
+<div>
+    <div x-show="context.filters.properties.color.length > 0"
+        class="rounded-mainRadius border border-neutral200 p-4 flex overflow-hidden flex-col items-start gap-3">
+        <div @click="toggleModal('colorProperties')" class="w-full flex items-center justify-between cursor-pointer">
+            <span class="font-semibold text-customBlack">الألوان</span>
+            <svg :class="modal.type === 'colorProperties' && modal.open ? 'rotate-180' : ''" width="24" height="25" viewBox="0 0 24 25" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd"
                     d="M6.2762 9.15125C6.6345 8.80674 7.20424 8.81791 7.54875 9.1762L12 13.9015L16.4513 9.1762C16.7958 8.81791 17.3655 8.80674 17.7238 9.15125C18.0821 9.49576 18.0933 10.0655 17.7488 10.4238L12.6488 15.8238C12.4791 16.0003 12.2448 16.1 12 16.1C11.7552 16.1 11.5209 16.0003 11.3513 15.8238L6.25125 10.4238C5.90674 10.0655 5.91791 9.49576 6.2762 9.15125Z"
@@ -11,25 +11,25 @@
                     stroke-linejoin="round" />
             </svg>
         </div>
-        <div x-show="IsOpen" x-collapse class="w-max grid grid-cols-8 gap-2">
-            {# <template x-for="group in filterData.filters.properties.color" > #}
-                <template x-for="c in filterData?.filters?.properties?.color?.data" :key="c.id">
-                    <div @click="addFilter('colors', c.id)" class="cursor-pointer w-max">
-                        <div class="w-6 h-6 flex items-center justify-center rounded-full p-[3px]"
-                        :class="isSelected('colors', c.id) ? 'border-mainColor' : 'border-[#E5E5E5]'" 
-                        :style="'border: ' + (isSelected('colors', c.id) ? '2px' : '1px') + ' solid ' + (c.value || '#E5E5E5')">
+        <div x-show="modal.type === 'colorProperties' && modal.open" x-collapse class="w-max grid grid-cols-8 gap-x-2 gap-y-3">
+            <template x-for="group in context.filters.properties.color" :key="group.title" >
+                <template x-for="color in group.data" :key="color.id">
+                    <div @click="addFilter('colors', color)" class="cursor-pointer w-max">
+                        <div class="w-6 h-6 flex items-center justify-center rounded-mainRadius p-[3px]"
+                        :class="isSelected('colors', color.id) ? 'border-mainColor' : 'border-neutral200'" 
+                        :style="'border: ' + (isSelected('colors', color.id) ? '2px' : '1px') + ' solid ' + (color.value || '#E5E5E5')">
                         <div class="w-max">
-                                <span :style="'background-color: ' + (c.value || '#E5E5E5')"
-                                    class="w-[18px] h-[18px] rounded-full flex items-center justify-center"
-                                    :class="isSelected('colors', c.id)  ? 'border-mainColor text-white' : ''">
-                                    <i x-show="isSelected('colors', c.id)"
-                                        class="fi flex items-center text-xs font-bold fi-rr-check"></i>
+                                <span :style="'background-color: ' + (color.value || '#E5E5E5')"
+                                    class="w-[18px] h-[18px] rounded-mainRadius flex items-center justify-center"
+                                    :class="isSelected('colors', color.id)  ? 'border-mainColor text-white' : ''">
+                                    <i x-show="isSelected('colors', color.id)"
+                                        class="fi flex items-center text-xs font-bold fi-tr-check-double"></i>
                                 </span>
                             </div>
                         </div>
                     </div>
                 </template>
-            {# </template> #}
+            </template>
         </div>
     </div>
 </div>

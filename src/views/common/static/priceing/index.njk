@@ -1,105 +1,62 @@
-<div x-data="{
-    minVal: 0,
-    maxVal: 9999, 
-    minPos: 0,
-    maxPos: 100,
-    maxLimit: 9999, 
-    isOpen: false,
-    dragging: null,
-    rafId: null,
-    dragTimeout: null,
-
-    updatePosition() {
-        this.minPos = (this.minVal / this.maxLimit) * 100;
-        this.maxPos = (this.maxVal / this.maxLimit) * 100;
-    },
-
-    startDrag(type) {
-        this.dragging = type;
-        if (this.dragTimeout) {
-            clearTimeout(this.dragTimeout);
-            this.dragTimeout = null;
-        }
-    },
-
-    stopDrag() {
-        if (!this.dragging) return; 
-
-        this.dragging = null;
-        if (this.rafId) {
-            cancelAnimationFrame(this.rafId);
-            this.rafId = null;
-        }
-
-        this.dragTimeout = setTimeout(() => {
-            filterProducts({
-                minPrice: this.minVal,
-                maxPrice: this.maxVal
-            });
-        }, 1000);
-    },
-
-    drag(event) {
-        if (!this.dragging) return;
-        let clientX = event.type.includes('touch') ? event.touches[0].clientX : event.clientX;
-    
-        let sliderRect = $el.querySelector('.relative').getBoundingClientRect();
-        let newPos = ((clientX - sliderRect.left) / sliderRect.width) * 100;
-        let newVal = Math.round((newPos / 100) * this.maxLimit); 
-    
-        if (this.dragging === 'min' && newVal < this.maxVal - 50 && newVal >= 0) {
-            this.minVal = newVal;
-        } else if (this.dragging === 'max' && newVal > this.minVal + 50 && newVal <= this.maxLimit) {
-            this.maxVal = newVal;
-        }
-    
-        if (!this.rafId) {
-            this.rafId = requestAnimationFrame(() => {
-                this.updatePosition();
-                this.rafId = null;
-            });
-        }
-    }
-}" 
-x-init="updatePosition()" 
-@mousemove.window="drag($event)" 
-@touchmove.window="drag($event)" 
-@mouseup.window="stopDrag()" 
-@touchend.window="stopDrag()" 
-class="w-full">
-
-    <div class="rounded-lg border border-[#E5E5E5] p-4 flex flex-col items-start gap-4">
-        <div @click="isOpen = !isOpen" class="w-full flex items-center justify-between cursor-pointer">
-            <span class="font-semibold text-[#434A5B]">السعر</span>
-            <svg :class="isOpen ? 'rotate-180' : ''" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M6.2762 9.15125C6.6345 8.80674 7.20424 8.81791 7.54875 9.1762L12 13.9015L16.4513 9.1762C16.7958 8.81791 17.3655 8.80674 17.7238 9.15125C18.0821 9.49576 18.0933 10.0655 17.7488 10.4238L12.6488 15.8238C12.4791 16.0003 12.2448 16.1 12 16.1C11.7552 16.1 11.5209 16.0003 11.3513 15.8238L6.25125 10.4238C5.90674 10.0655 5.91791 9.49576 6.2762 9.15125Z"
-                    fill="#434A5B" />
-            </svg>
-        </div>
-
-        <div x-show="isOpen" x-collapse class="w-full py-4">
-            <div class="relative">
-                <span :style="'left: ' + minPos + '%'"
-                    class="absolute border-opacity-20 z-[100] box-content w-3 h-3 border-4 border-mainColor rounded-full shadow-lg top-1/2 -translate-y-1/2 bg-white flex items-center justify-center text-xs text-white font-bold cursor-pointer"
-                    @mousedown="startDrag('min')" 
-                    @touchstart="startDrag('min')">
-                    <span class="absolute -top-8 h-[25px] text-sm rounded w-[60px] flex items-center justify-center bg-mainColor" x-text="minVal + currency">45345</span>
-                </span>
-
-                <div class="bg-[#ECECEC] rounded-lg h-[6px] flex w-full relative">
-                    <div class="absolute top-0 h-[6px] bg-mainColor rounded-lg"
-                        :style="'left: ' + minPos + '%; width: ' + (maxPos - minPos) + '%';">
-                    </div>
-                </div>
-
-                <span :style="'left: ' + maxPos + '%'"
-                    class="absolute z-[100] w-3 h-3 rounded-full shadow-xl top-1/2 border-4 border-mainColor border-opacity-20 shadow-mainColor -translate-y-1/2 bg-white box-content drop-shadow-lg flex items-center justify-center text-xs text-white font-bold cursor-pointer"
-                    @mousedown="startDrag('max')" 
-                    @touchstart="startDrag('max')">
-                    <span class="absolute -top-8 h-[25px] rounded w-[60px] text-sm flex items-center justify-center bg-mainColor" x-text="maxVal + currency"></span>
-                </span>
-            </div>
-        </div>
+<div
+  x-data="xDataPriceSlider()"
+  x-init="updatePosition()"
+  class="w-full"
+>
+  <div x-data="{ open :   false }" class=" rounded-mainRadius border border-neutral200 p-4 flex flex-col items-start gap-4">
+    <div @click="open = !open" class="w-full flex items-center justify-between cursor-pointer">
+      <span class="font-semibold text-customBlack">السعر</span>
+      <svg :class="modal.type === 'filterPriceSlider' && modal.open ? 'rotate-180' : ''" width="24" height="25" viewBox="0 0 24 25" fill="none">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+          d="M6.2762 9.15125C6.6345 8.80674 7.20424 8.81791 7.54875 9.1762L12 13.9015L16.4513 9.1762C16.7958 8.81791 17.3655 8.80674 17.7238 9.15125C18.0821 9.49576 18.0933 10.0655 17.7488 10.4238L12.6488 15.8238C12.4791 16.0003 12.2448 16.1 12 16.1C11.7552 16.1 11.5209 16.0003 11.3513 15.8238L6.25125 10.4238C5.90674 10.0655 5.91791 9.49576 6.2762 9.15125Z"
+          fill="#434A5B" />
+      </svg>
     </div>
+
+    <div x-show="open" x-collapse class="w-full py-4">
+      <div
+        class="relative"
+        @mousemove="drag($event)"
+        @touchmove="drag($event)"
+        @mouseup="stopDrag()"
+        @touchend="stopDrag()"
+      >
+        <!-- Handle Min -->
+        <span
+          :style="'left: ' + minPos + '%'"
+          class="absolute border-opacity-20 z-[100] box-content w-3 h-3 border-4 border-mainColor rounded-full shadow-lg top-1/2 -translate-y-1/2 bg-white flex items-center justify-center text-xs text-white font-bold cursor-pointer"
+          @mousedown="startDrag('min')"
+          @touchstart="startDrag('min')"
+        >
+          <span
+            class="absolute -top-8 h-[25px] text-sm  rounded-mainRadius w-[60px] flex items-center justify-center bg-mainColor text-white"
+            x-text="minVal + data.app.currency.currencySymbol"
+          ></span>
+        </span>
+
+          <!-- Track -->
+        <div class="bg-[#ECECEC] rounded-lg h-[6px] flex w-full relative">
+          <div
+            class="absolute top-0 h-[6px] bg-mainColor rounded-lg"
+            :style="'left: ' + minPos + '%; width: ' + (maxPos - minPos) + '%'"
+          ></div>
+        </div>
+
+        <!-- Handle Max -->
+        <span
+          :style="'left: ' + maxPos + '%'"
+          class="absolute z-[100] w-3 h-3 rounded-full shadow-xl top-1/2 border-4 border-mainColor border-opacity-20 shadow-mainColor -translate-y-1/2 bg-white box-content drop-shadow-lg flex items-center justify-center text-xs text-white font-bold cursor-pointer"
+          @mousedown="startDrag('max')"
+          @touchstart="startDrag('max')"
+        >
+          <span
+            class="absolute -top-8 h-[25px]  rounded-mainRadius w-[60px] text-sm flex items-center justify-center bg-mainColor text-white"
+            x-text="maxVal + data.app.currency.currencySymbol"
+          ></span>
+        </span>
+      </div>
+    </div>
+  </div>
 </div>
+
+<script src="{{'filterPriceing.js' | assets}}"></script>

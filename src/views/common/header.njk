@@ -1,73 +1,95 @@
-{# {% from "components/dropDown/index.njk" import dropDown %} #}
 <!-- header -->
+<script src={{"header.js" | assets}}></script>
 <link rel="preload" :href="data.app.logoUrl" as="image">
-
-<div style="z-index: 100;" class=" sticky  flex   top-0  flex-col gap-8 shadow-mainColor w-full">
-    <div class="">
-        <span x-effect="console.log('themeWa')"></span>
-        {# <div class=" h-9 items-center flex  bg-mainColor">
-            <div class="container w-full  md:flex-row flex-col   flex justify-between">
-                <div class="  flex  text-white ">
-                    {%for listItem in global.lists.topMenu%}
-                    <a href="{{listItem.url}}"
-                        class=" last:border-none text-center border-l  px-3">{{listItem.title}}</a>
-                    {%endfor%}
-                </div>
-            </div>
-        </div> #}
-        <div style="height: 69px;" class=" w-full  bg-white flex items-center py-3 z-100">
-            <div class=" flex items-center justify-between container">
-                <div class=" flex gap-8">
-                    <div class="flex items-center gap-3">
-                        <i x-on:click="toggle('sidebar')"
-                            class=" hidden-lg text-mainColor cursor-pointer flex items-center text-3xl fi fi-rr-menu-burger"></i>
-                        <a aria-label="لوجو الرئيسي" class="rounded-full" href="/">
-                            <img class="h-[45px]   object-contain " :src="data.app.logoUrl" alt="Logo">
-                        </a>
-                    </div>
-
-                    <div class=" flex un-hidden-lg justify-start items-center gap-10 "> {# {% for item in
-                        data.app.lists.header%} #}
-                        <template x-for="item in data.lists.header">
-                            <a aria-label="item header lists" :href="item?.url" :class="item.class" x-text="item.title"
-                                class="  rounded-md text-customBlack font-bold "></a>
-                        </template>
-                    </div>
-                </div>
-
-
-                <div class=" flex gap-3 md:gap-6  items-center">
-                    <div class=" w-max">
-
-                        <div x-on:click="toggle('search')":style="`background-color: ${data.app.settings.mainColor}1F`"
-                            class="cursor-pointer group hover:scale-105 transition-all duration-300 rounded-full w-[45px] h-[45px] flex items-center justify-center">
-                            <i class="fi flex items-center text-[20px] text-mainColor fi-rr-search"></i>
-
-                        </div>
-                    </div>
-                    <div class=" w-max">
-
-                        <div x-on:click="toggle('cart')" :style="`background-color: ${data.app.settings.mainColor}1F`"
-                            class=" cursor-pointer group hover:scale-105 transition-all duration-300  rounded-full w-[45px] h-[45px]  flex items-center justify-center  relative">
-                            <i class="fi text-[20px] text-mainColor flex items-center fi-rr-shopping-cart"></i>
-
-                            <span x-text="cart?.items ? cart?.items.length : 0" class="text-white absolute top-0 right-0 transform translate-x-[3%] translate-y-0 w-[14px] h-[14px]
-                        text-[10px] rounded-full flex items-center justify-center bg-mainColor">
-                                0
-                            </span>
-
-                        </div>
-                    </div>
-                    <div class="w-max">
-                        <qumra-user-menu iconsize="20px" :iconcolor="data.app.settings.mainColor"></qumra-user-menu>
-                    </div>
-                </div>
-            </div>
+<div style="z-index:999;" class="sticky flex top-0 flex-col   border-b border-neutral200 w-full"
+  x-data="xDataHeader(data?.lists?.header)" x-init="init()" @resize.window.debounce.100="updateItems()">
+  <div class="  flex gap-4 py-2 px-1 overflow-hidden bg-mainColor">
+    <template x-for="item in [0, 1, 2,3]" :key="item">
+      <div class=" flex items-center gap-[6px]">
+        <i class="fi fi-tr-shipping-fast text-white"></i>
+        <span class=" text-xs  text-white text-nowrap">احصل على توصيل مجاني للمنزل (عند الطلب بأكثر من 1000
+          جنية مصرى)</span>
+      </div>
+    </template>
+  </div>
+  <div style="height: 69px;" class="w-full bg-white flex items-center py-3 z-100">
+    <div class="flex items-center gap-8 justify-between container">
+      <div class="flex gap-8 md:flex-1">
+        <div class="flex   items-center gap-3">
+          <svg class=" md:hidden" q-toggle="sidebar" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.33301 5L16.6663 5M7.91634 10L16.6663 10M3.33301 15L16.6663 15" stroke="#333333" stroke-linecap="round"/>
+            </svg>
+      <a aria-label="لوجو الرئيسي" class="rounded-full  max-md:hidden w-max" href="/">
+            <img class="h-[42px] object-contain" :src="data.app.logoUrl" alt="Logo" />
+          </a>
         </div>
-    </div>
-</div>
-<!-- header -->
 
-{% include "common/static/cart/index.njk" ignore missing %}
-{% include "common/static/search/index.njk" ignore missing %}
-{% include "common/static/sideBar/index.njk" ignore missing %}
+        <div class="  max-lg:hidden flex  header-lists flex-1 justify-start items-center gap-10 relative">
+          <!-- القائمة الأولى (العناصر المرئية) -->
+          <template x-for="(item, index) in visibleItems" :key="index">
+            <a aria-label="item header lists" :href="item?.url" :class="item.class"
+              class=" text-customBlack text-nowrap font-bold" x-text="item.title" x-ref="headerItem"></a>
+          </template>
+
+          <!-- القائمة المنسدلة -->
+          <div x-show="dropdownItems.length > 0" x-data="{ open: false }" class="relative">
+            <button @click="open = !open" class="text-customBlack font-bold">
+              <div class="flex items-center gap-3">
+                المزيد
+                <i class="fi fi-tr-caret-down"></i>
+              </div>
+            </button>
+
+            <div x-show="open" @click.outside="open = false"
+              class="absolute right-0  top-[30px] min-w-28 bg-white border border-neutral200 shadow-lg z-50">
+              <template x-for="item in dropdownItems" :key="item.title">
+                <a aria-label="dropdown item" :href="item?.url" :class="item.class"
+                  class="block px-4 py-2 text-customBlack hover:bg-mainColor hover:text-white text-nowrap"
+                  x-text="item.title"></a>
+              </template>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a aria-label="لوجو الرئيسي" class="rounded-full  max-md:flex hidden  w-max" href="/">
+        <img class="h-[42px] object-contain" :src="data.app.logoUrl" alt="Logo" />
+      </a>
+      <div class="flex gap-3 md:gap-6 items-center">
+        <div class=" border flex items-center gap-3  border-neutral200  max-md:hidden">
+          <span class=" pr-3 cursor-pointer " onclick="window.setSearch(search)">
+            <svg   width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14.1057 14.5945L17 17.3945M16.0667 9.92786C16.0667 13.5361 13.1416 16.4612 9.53333 16.4612C5.92507 16.4612 3 13.5361 3 9.92786C3 6.3196 5.92507 3.39453 9.53333 3.39453C13.1416 3.39453 16.0667 6.3196 16.0667 9.92786Z" stroke="#333333" stroke-linecap="round"/>
+            </svg>
+          </span>
+            <input x-model="search"  @keydown.enter="window.setSearch(search)" :value="context.search?.q" type="text" class=" border-none outline-none text-sm py-[5px] pl-3 placeholder-neutral400"
+            placeholder="ابحث هنا..." />
+        </div>
+  
+        <div class="w-max">
+          <div q-toggle="cart"
+            class="cursor-pointer group active:bg-neutral200 hover:scale-105 transition-all duration-300 rounded-full w-[45px] h-[45px] flex items-center justify-center relative">
+            <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_472_2650)">
+              <path d="M19.5275 5.01991C19.13 4.53491 18.5425 4.25741 17.9158 4.25741H3.74167L3.52833 2.72157C3.38667 1.69741 2.5 0.924072 1.465 0.924072H0.416667C0.186667 0.924072 0 1.11074 0 1.34074C0 1.57074 0.186667 1.75741 0.416667 1.75741H1.46583C2.08667 1.75741 2.61833 2.22074 2.70333 2.83574L4.1875 13.5232C4.44417 15.3666 6.04167 16.7574 7.90166 16.7574H16.25C16.48 16.7574 16.6667 16.5707 16.6667 16.3407C16.6667 16.1107 16.48 15.9241 16.25 15.9241H7.90166C6.46 15.9241 5.22333 14.8499 5.01667 13.4241H15.55C17.3317 13.4241 18.8775 12.1566 19.2267 10.4099L19.9592 6.74907C20.0817 6.13407 19.925 5.50407 19.5275 5.01991ZM19.1425 6.58574L18.41 10.2466C18.1383 11.6049 16.935 12.5907 15.55 12.5907H4.89917L3.8575 5.09074H17.9158C18.2917 5.09074 18.6442 5.25741 18.8825 5.54824C19.1208 5.83907 19.215 6.21741 19.1425 6.58574ZM5.83333 17.5907C4.91417 17.5907 4.16667 18.3382 4.16667 19.2574C4.16667 20.1766 4.91417 20.9241 5.83333 20.9241C6.7525 20.9241 7.5 20.1766 7.5 19.2574C7.5 18.3382 6.7525 17.5907 5.83333 17.5907ZM5.83333 20.0907C5.37333 20.0907 5 19.7166 5 19.2574C5 18.7982 5.37333 18.4241 5.83333 18.4241C6.29333 18.4241 6.66666 18.7982 6.66666 19.2574C6.66666 19.7166 6.29333 20.0907 5.83333 20.0907ZM14.1667 17.5907C13.2475 17.5907 12.5 18.3382 12.5 19.2574C12.5 20.1766 13.2475 20.9241 14.1667 20.9241C15.0858 20.9241 15.8333 20.1766 15.8333 19.2574C15.8333 18.3382 15.0858 17.5907 14.1667 17.5907ZM14.1667 20.0907C13.7067 20.0907 13.3333 19.7166 13.3333 19.2574C13.3333 18.7982 13.7067 18.4241 14.1667 18.4241C14.6267 18.4241 15 18.7982 15 19.2574C15 19.7166 14.6267 20.0907 14.1667 20.0907Z" fill="black"/>
+              </g>
+              <defs>
+              <clipPath id="clip0_472_2650">
+              <rect width="20" height="20" fill="white" transform="translate(0 0.924072)"/>
+              </clipPath>
+              </defs>
+              </svg>
+              
+            <span x-text="cart?.items ? cart?.items.length : 0" class="text-white absolute top-0 right-0 transform translate-x-[-32%] translate-y-2 w-[14px] h-[14px]
+            text-[10px] rounded-full flex items-center justify-center bg-subColor">
+              0
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

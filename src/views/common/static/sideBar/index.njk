@@ -1,29 +1,25 @@
-<div  x-bind:class="Modal.open && Modal.type === 'sidebar'  ? '!right-0' : ' right-[-120%] lg:right-[-100%]'" class=" 
-right-[-120%] lg:right-[-100%] 
- fixed z-[9992]
-  md:w-[450px]  lg:hidden w-full xs:w-9/12 flex flex-col gap-4
-     bg-white  top-0 transition-all duration-300 pb-10">
-     <div class="flex flex-col  h-screen ">
-    <div class=" justify-start flex-col flex items-center h-screen  overflow-y-auto gap-2">
-        <div class=" flex justify-between w-full  bg-white items-center sticky top-0 p-4 border-y border-[#E5E6E6]">
-            <div class=" text-[20px] font-bold">القائمة الرئيسية</div>
-     
-            <button aria-label="فتح القائمه الجانبية" class=" bg-[#F5F6F6] border border-[#ECEEEE] w-[24px] h-[24px] flex items-center justify-center"
-            @click="toggle('sidebar')">
-            <i class="fi flex items-center fi-rr-cross-small"></i>
-        </button>
+<div q-panel="sidebar" q-panel-position="right" q-panel-direction="right"
+    class=" hidden md:w-[360px] w-full xs:w-9/12 flex-col gap-4 bg-white">
+    <div class="flex flex-col  h-screen ">
+        <div class=" justify-start flex-col flex items-center h-screen  overflow-y-auto gap-2">
+            <div class=" flex justify-between w-full  bg-white items-center sticky top-0 p-4 border-y border-[#E5E6E6]">
+                <div class=" text-[20px] font-bold">القائمة الرئيسية</div>
+
+                <button aria-label="غلق القائمه الجانبية"
+                    class=" w-[24px] h-[24px] flex items-center justify-center"
+                    q-toggle="sidebar">
+                    <i class="fi flex items-center fi-tr-x"></i>
+                </button>
+            </div>
+            <div class='flex flex-col w-full'>
+                <template x-for="(item, index)  in window.__qumra__.data.lists.header" :key="index">
+                    <a aria-label="list of headerList sideBar" :href="item?.url"
+                        :class="item?.url == window.location.pathname ? 'bg-[#F5F6F6]' : '' "
+                        class=" p-3 w-full  transition-all duration-300 bg-white hover:bg-[#F5F6F6]  border-b  border-[#EAEAEA]  flex items-center justify-between font-bold ">
+                        <span x-text="item?.title"></span>
+                    </a>
+                </template>
+            </div>
         </div>
-        <div class='flex flex-col w-full'>
-            <template x-for="(item, index)  in window.__qumra__.data.lists.header" :key="index">
-                <a aria-label="list of headerList sideBar" :href="item?.url" :class="item?.url == window.location.pathname ? 'bg-[#F5F6F6]' : '' "
-                class=" p-3 w-full  transition-all duration-300 bg-white hover:bg-[#F5F6F6]  border-b  border-[#EAEAEA]  flex items-center justify-between font-bold ">
-                     <span x-text="item?.title"></span>
-                </a>
-            </template>
-        </div>
-    </div>
     </div>
 </div>
-
-<div x-on:click="toggle('sidebar')" x-bind:class="Modal.open  && Modal.type === 'sidebar' ? 'opacity-10 !flex' : 'hidden bg-opacity-0'"
-    class=" bg-black  transition-all duration-400  top-0 lg:!hidden fixed hidden   w-screen h-screen z-[9991]"></div>

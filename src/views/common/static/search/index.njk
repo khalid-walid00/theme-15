@@ -1,37 +1,30 @@
-<div 
-    x-on:click="toggle('search')"
-    x-effect="if (!Modal.open && Modal.type === 'search' && window.location.pathname.includes('/search/?q=')) search = ''" 
-    :class="Modal.open && Modal.type === 'search' ? '!top-0' : '-top-full'"
-    class="w-screen md:h-[307px] h-[120px]  -top-full bg-white transition-all duration-500  fixed z-[9991] flex md:items-center justify-center"
->
+<div q-panel="search" q-panel-position="bottom" q-panel-direction="bottom"
+    class="hidden  w-full xs:w-9/12 flex-col gap-4 bg-white py-3 px-4 min-h-[201px]">
+    <div class=" flex flex-col gap-5">
+<div class=" flex justify-between ">
+<p class=" font-bold">البحث</p>
+<svg q-toggle="search" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 6L6 18M18 18L6 6" stroke="black" stroke-linecap="round"/>
+    </svg>
+    
+</div>
+    <div class="w-full flex justify-between items-center border border-neutral200  p-[5px]  bg-white">
+        <input :value="context.search?.q" x-model="search" placeholder="ابحث هنا..."
+            class=" w-full h-full px-4 bg-transparent outline-none" type="text" />
+        <div class=" w-max">
 
-    <div class="z-[9991]  md:py-0 py-6 bg-white relative w-full h-full flex md:items-center items-end justify-center">
-        <i 
-        class="absolute md:top-[60px] top-5 md:right-[60px] right-5 cursor-pointer text-black fi fi-rr-cross-small"></i>
-        
-            <div class=" md:w-8/12 w-full flex flex-col items-center md:items-start gap-8 ">
-     <div class=" text-2xl text-[#434A5B] md:block hidden">ما الذي تبحث عنه ؟</div>
-        <div x-on:click.stop class="w-11/12 h-[40px] md:bg-mainColor md:h-[70px]
-         items-center rounded-mainRadius justify-center md:p-2 md:pl-6 flex gap-4">
-            <input 
-                @keydown.enter="searchProducts(search)" 
-                x-model="search"
-                :value="window.__qumra__?.context.search?.q"
-                type="search"
-                placeholder="ابحث عن المنتجات..." 
-                class="flex-1 outline-none h-full  md:border-0 border border-[#E5E6E6] bg-white rounded-mainRadius py-3 px-6" 
-                type="text"
-            >
-            <div class="w-[40px] h-[40px] flex items-center justify-center bg-mainColor">
-                <i 
-                x-on:click="setSearch(search)" 
-                class="fi cursor-pointer flex self-center fi-rr-search text-2xl text-white"
-                ></i>
+            <div x-on:click="window.setSearch(search)"
+                class="flex h-[40px] w-[40px] cursor-pointer bg-mainColor items-center justify-center">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M16.9265 17.04L20.3996 20.4M19.2796 11.44C19.2796 15.7699 15.7695 19.28 11.4396 19.28C7.1097 19.28 3.59961 15.7699 3.59961 11.44C3.59961 7.11009 7.1097 3.60001 11.4396 3.60001C15.7695 3.60001 19.2796 7.11009 19.2796 11.44Z"
+                        stroke="white" stroke-linecap="round" />
+                </svg>
             </div>
         </div>
     </div>
-</div>
-<div class="w-full h-full blur-md backdrop-blur-sm bg-black/30    fixed duration-500 transition-all -bottom-full  z-[999] "
-:class="Modal.open && Modal.type === 'search' ? '!bottom-0' : '-bottom-full'"></div>
+
+
 </div>
 
+</div>

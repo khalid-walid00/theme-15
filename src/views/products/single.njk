@@ -1,9 +1,8 @@
 {% extends "layouts/layout.njk" %}
-{% from "common/components/headers/index.njk" import titleSection %}
-
-
 {% block content %}
-<div class="min-h-screen flex flex-col gap-8 md:gap-40 container py-8 md:pt-[60px]">
+<script src="{{ 'product.js' | assets }}"></script>
+<div class="min-h-screen flex flex-col gap-8 md:gap-40 container py-8 md:pt-[60px]"
+    x-data="xDataproduct(context.product)">
 
     <div class=" flex flex-col gap-10 ">
         {# <div class=" flex flex-col gap-2">
@@ -26,65 +25,43 @@
             </div>
 
             <div class="md:col-span-3">
-                <form class="flex flex-col gap-6" enctype="multipart/form-data" method="post"
-                    onsubmit="return window.Qumra.forms.submit('product', event)">
-                    <div class=" flex flex-col gap-2 ">
-                        <input type="hidden" name="product" :value="context.product._id">
-                        <h1 x-text="context.product.title" class="text-2xl font-bold  text-customBlack"></h1>
-                        <div class=" flex gap-4 items-center">
-                            <div class="flex gap-1 items-center">
-                                <template x-for="i in [...Array(context.product.rate).keys()]">
-                                    <svg width="16" height="14" viewBox="0 0 16 14" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <g clip-path="url(#clip0_6090_30129)">
-                                            <path
-                                                d="M8.7357 0.239122L10.6374 4.62682L15.4638 5.05244C15.54 5.05861 15.6127 5.08692 15.6727 5.13379C15.7326 5.18067 15.7772 5.24403 15.8007 5.31588C15.8243 5.38772 15.8258 5.46485 15.805 5.53754C15.7843 5.61023 15.7422 5.67523 15.6841 5.72435L12.0308 8.86867L13.1081 13.5314C13.1194 13.5803 13.1207 13.631 13.1121 13.6806C13.1034 13.7301 13.085 13.7774 13.0578 13.8198C13.0305 13.8623 12.9951 13.899 12.9535 13.9278C12.9118 13.9567 12.8648 13.9772 12.8152 13.9881C12.7125 14.0094 12.6054 13.9897 12.5174 13.9331L8.37133 11.4893L4.21437 13.945C4.17094 13.971 4.12273 13.9883 4.07252 13.9958C4.0223 14.0033 3.97108 14.001 3.92179 13.9889C3.87251 13.9768 3.82614 13.9551 3.78535 13.9252C3.74457 13.8953 3.71017 13.8578 3.68415 13.8147C3.65809 13.7725 3.64072 13.7257 3.63304 13.6768C3.62535 13.628 3.6275 13.5782 3.63936 13.5302L4.71795 8.86747L1.06941 5.72435C0.992718 5.65715 0.94572 5.56296 0.93848 5.46195C0.93124 5.36095 0.964332 5.26116 1.03067 5.18396C1.10378 5.10997 1.20324 5.06708 1.30788 5.0644L6.11611 4.63878L8.01786 0.239122C8.04853 0.170357 8.09879 0.111888 8.16252 0.070839C8.22625 0.0297904 8.30069 0.00793457 8.37678 0.00793457C8.45286 0.00793457 8.5273 0.0297904 8.59103 0.070839C8.65476 0.111888 8.70502 0.170357 8.7357 0.239122Z"
-                                                fill="#FFD401" />
-                                        </g>
-                                        <defs>
-                                            <clipPath id="clip0_6090_30129">
-                                                <rect width="14.875" height="14" fill="white"
-                                                    transform="translate(0.9375)" />
-                                            </clipPath>
-                                        </defs>
-                                    </svg>
-                                </template>
-                            </div>
-
-                            <div class="py-1 flex ">
-                                <div class=" text-customBlack">
-                                    <span x-show="context.product.rateCount === 0">
-                                        لا يوجد تقييمات
-                                    </span>
-                                    <span x-show="context.product.rateCount !== 0">
-                                        تقييما
-                                    </span>
+                <form enctype="multipart/form-data" method="post" id="productForm">
+                    <input type="hidden" name="product" :value="context.product._id">
+                    <div class="flex flex-col gap-8">
+                        <div class=" flex flex-col gap-4">
+                            <div class=" flex flex-col gap-2">
+                                <div class="flex items-center ">
+                                    <div class=" text-customBlack">
+                                        <span x-show="context.product.rateCount === 0">
+                                            لا يوجد تقييمات
+                                        </span>
+                                        <span x-show="context.product.rateCount !== 0">
+                                            تقييما
+                                        </span>
+                                    </div>
+                                    <template x-show="context.product.rateCount !== 0"
+                                        x-for="i in [...Array(context.product.rate).keys()]">
+                                        <svg width="16" height="14" viewBox="0 0 16 14" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <g clip-path="url(#clip0_6090_30129)">
+                                                <path
+                                                    d="M8.7357 0.239122L10.6374 4.62682L15.4638 5.05244C15.54 5.05861 15.6127 5.08692 15.6727 5.13379C15.7326 5.18067 15.7772 5.24403 15.8007 5.31588C15.8243 5.38772 15.8258 5.46485 15.805 5.53754C15.7843 5.61023 15.7422 5.67523 15.6841 5.72435L12.0308 8.86867L13.1081 13.5314C13.1194 13.5803 13.1207 13.631 13.1121 13.6806C13.1034 13.7301 13.085 13.7774 13.0578 13.8198C13.0305 13.8623 12.9951 13.899 12.9535 13.9278C12.9118 13.9567 12.8648 13.9772 12.8152 13.9881C12.7125 14.0094 12.6054 13.9897 12.5174 13.9331L8.37133 11.4893L4.21437 13.945C4.17094 13.971 4.12273 13.9883 4.07252 13.9958C4.0223 14.0033 3.97108 14.001 3.92179 13.9889C3.87251 13.9768 3.82614 13.9551 3.78535 13.9252C3.74457 13.8953 3.71017 13.8578 3.68415 13.8147C3.65809 13.7725 3.64072 13.7257 3.63304 13.6768C3.62535 13.628 3.6275 13.5782 3.63936 13.5302L4.71795 8.86747L1.06941 5.72435C0.992718 5.65715 0.94572 5.56296 0.93848 5.46195C0.93124 5.36095 0.964332 5.26116 1.03067 5.18396C1.10378 5.10997 1.20324 5.06708 1.30788 5.0644L6.11611 4.63878L8.01786 0.239122C8.04853 0.170357 8.09879 0.111888 8.16252 0.070839C8.22625 0.0297904 8.30069 0.00793457 8.37678 0.00793457C8.45286 0.00793457 8.5273 0.0297904 8.59103 0.070839C8.65476 0.111888 8.70502 0.170357 8.7357 0.239122Z"
+                                                    fill="#FFD401" />
+                                            </g>
+                                            <defs>
+                                                <clipPath id="clip0_6090_30129">
+                                                    <rect width="14.875" height="14" fill="white"
+                                                        transform="translate(0.9375)" />
+                                                </clipPath>
+                                            </defs>
+                                        </svg>
+                                    </template>
                                 </div>
+                                <h1 x-text="context.product.title" class="text-2xl font-bold  text-customBlack"></h1>
                             </div>
-                        </div>
-                        <div x-data="{
-                            statusAvailable: context.product.status === 'AVAILABLE', 
-                            mainColor: data.app.settings.mainColor 
-                        }" :class="statusAvailable ? 'text-mainColor' : 'text-red-500'"
-                            class="font-bold text-sm flex gap-2 items-center">
 
-                            <svg width="15" height="16" viewBox="0 0 15 16" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M4.95216 1.84907C5.57029 1.1382 6.48249 0.6875 7.5 0.6875C8.51746 0.6875 9.42962 1.13815 10.0477 1.84896C10.9876 1.7833 11.9514 2.10962 12.671 2.82918C13.3905 3.54874 13.7169 4.51257 13.6512 5.45239C14.3619 6.07052 14.8125 6.98261 14.8125 8C14.8125 9.01758 14.3617 9.92983 13.6508 10.548C13.7163 11.4876 13.39 12.4513 12.6705 13.1707C11.9511 13.8901 10.9875 14.2165 10.0478 14.151C9.42969 14.8618 8.5175 15.3125 7.5 15.3125C6.48255 15.3125 5.5704 14.8619 4.95228 14.1511C4.01244 14.2167 3.0486 13.8904 2.32903 13.1708C1.60947 12.4513 1.28314 11.4874 1.34881 10.5476C0.638089 9.92949 0.1875 9.01739 0.1875 8C0.1875 6.98256 0.638135 6.07042 1.34892 5.45229C1.28332 4.51254 1.60965 3.5488 2.32915 2.8293C3.04866 2.1098 4.0124 1.78347 4.95216 1.84907ZM10.2077 6.63945C10.3883 6.38665 10.3297 6.03534 10.0769 5.85477C9.82415 5.67421 9.47284 5.73276 9.29227 5.98555L6.86572 9.38273L5.64775 8.16475C5.42808 7.94508 5.07192 7.94508 4.85225 8.16475C4.63258 8.38442 4.63258 8.74058 4.85225 8.96025L6.53975 10.6477C6.65667 10.7647 6.81911 10.8242 6.9839 10.8106C7.14868 10.7969 7.29912 10.7115 7.39523 10.5769L10.2077 6.63945Z"
-                                    :fill="statusAvailable ? mainColor : 'red'" />
-                            </svg>
-
-                            <div x-text="statusAvailable ? 'متوفر في المعرض' : 'غير متوفر'"></div>
-                        </div>
-
-
-
-                    </div>
-                    <div class="pt-6 border-t flex flex-col gap-4" style="border-color: #D9D9D9;">
-                        <template x-if="context.product.discount !=0">.
-                            <div class=" flex gap-2 items-end">
-                                <div class="font-bold text-mainColor text-2xl">
+                            <div x-show="context.product.discount !=0" class=" flex gap-2 items-center">
+                                <div class="font-bold text-subColor text-2xl">
                                     <span x-text="context.product.priceAfterDiscount"></span>
                                     <span x-text="currency"></span>
                                 </div>
@@ -93,134 +70,169 @@
                                     <span x-text="currency"></span>
                                 </div>
                             </div>
-                        </template>
-                        <template x-if="context.product.discount ==0">
-                            <div x-show="!context.product?.privatePrice" class="  font-bold text-mainColor  text-2xl">
+
+                            <div x-show="!context.product?.privatePrice && context.product.discount ==0"
+                                class="  font-bold text-mainColor  text-2xl">
                                 <span x-text="context.product.price"></span>
                                 <span x-text="currency"></span>
                             </div>
-                        </template>
-                        <div x-html="context.product.content"
-                            class="text-sm text-subColor  whitespace-wrap  break-words "></div>
-                    </div>
-                    {% if context.product.properties.length > 0%}
-                    <div class="pt-6 border-t w-full font-bold  flex flex-col gap-2 items-center text-customBlack"
-                        style="border-color: #D9D9D9">
-                        <qumra-product-options class="w-full" :main-color="data.app.settings.mainColor"
-                            product={{context.product._id}}
-                            data="{{context.product.properties | dump}}"></qumra-product-options>
-                    </div>
-                    {%endif%}
+                            <div x-data="{statusAvailable: context.product.status === 'AVAILABLE', mainColor: data.app.settings.mainColor }"
+                                :class="statusAvailable ? 'text-mainColor' : 'text-red-500'"
+                                class="font-bold text-sm flex gap-2 items-center">
+                                <svg width="15" height="16" viewBox="0 0 15 16" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M4.95216 1.84907C5.57029 1.1382 6.48249 0.6875 7.5 0.6875C8.51746 0.6875 9.42962 1.13815 10.0477 1.84896C10.9876 1.7833 11.9514 2.10962 12.671 2.82918C13.3905 3.54874 13.7169 4.51257 13.6512 5.45239C14.3619 6.07052 14.8125 6.98261 14.8125 8C14.8125 9.01758 14.3617 9.92983 13.6508 10.548C13.7163 11.4876 13.39 12.4513 12.6705 13.1707C11.9511 13.8901 10.9875 14.2165 10.0478 14.151C9.42969 14.8618 8.5175 15.3125 7.5 15.3125C6.48255 15.3125 5.5704 14.8619 4.95228 14.1511C4.01244 14.2167 3.0486 13.8904 2.32903 13.1708C1.60947 12.4513 1.28314 11.4874 1.34881 10.5476C0.638089 9.92949 0.1875 9.01739 0.1875 8C0.1875 6.98256 0.638135 6.07042 1.34892 5.45229C1.28332 4.51254 1.60965 3.5488 2.32915 2.8293C3.04866 2.1098 4.0124 1.78347 4.95216 1.84907ZM10.2077 6.63945C10.3883 6.38665 10.3297 6.03534 10.0769 5.85477C9.82415 5.67421 9.47284 5.73276 9.29227 5.98555L6.86572 9.38273L5.64775 8.16475C5.42808 7.94508 5.07192 7.94508 4.85225 8.16475C4.63258 8.38442 4.63258 8.74058 4.85225 8.96025L6.53975 10.6477C6.65667 10.7647 6.81911 10.8242 6.9839 10.8106C7.14868 10.7969 7.29912 10.7115 7.39523 10.5769L10.2077 6.63945Z"
+                                        :fill="statusAvailable ? mainColor : 'red'" />
+                                </svg>
 
-                     {# <div x-show="context.product.properties.length > 0"
-                        class="pt-6 border-t w-full font-bold  flex flex-col gap-2 items-center text-customBlack"
-                        style="border-color: #D9D9D9">
-                        <qumra-product-options class="w-full" :main-color="data.app.settings.mainColor"
-                            :product="context.product._id"
-                            :data="JSON.stringify(context.product.properties)"></qumra-product-options>
-                    </div> #}
- 
+                                <div x-text="statusAvailable ? 'متوفر في المعرض' : 'غير متوفر'"></div>
+                            </div>
+                            <div x-html="context.product.content"
+                                class="text-sm text-neutral400  whitespace-wrap  break-words "></div>
+
+                        </div>
 
 
+                        {% if context.product.properties.length > 0%}
+                        <div class="w-full font-bold  flex flex-col gap-6  text-customBlack">
+                            <qumra-product-options class="w-full" :main-color="data.app.settings.mainColor"
+                                product={{context.product._id}}
+                                data="{{context.product.properties | dump}}"></qumra-product-options>
+                        </div>
+                        {%endif%}
 
-
-
-                    <div class="flex flex-col gap-4">
-                        <div x-show="!context.product?.privatePrice"
-                            class="pt-6  border-t font-bold  border-[#D9D9D9]    flex md:flex-row flex-col items-center gap-3">
-                            <div class=" flex gap-4 items-center w-full md:w-7/12  ">
-
-                                <div class=" w-1/2 h-[50px] md:h-[40px]">
-                                    <span x-effect="console.log('tsest',context.product.minQuantity)"></span>
-                                    <qumra-quantity-input :min="context.product.minQuantity"
-                                        :max="context.product.maxQuantity === undefined ? context.product.stock.quantity : context.product.maxQuantity "
-                                        :size="100%" :name="quantity" :stock="context.product.stock.quantity"
-                                        :value="context.product.minQuantity">
-
-                                    </qumra-quantity-input>
-                                </div>
-                                <div class=" w-1/2">
-                                    <button aria-label="إضافة إلى السلة" type="submit" name="addToCart"
-                                        value="addToCart"
-                                        class=" border-mainColor border w-full text-nowrap rounded-mainRadius flex justify-center items-center px-4 h-[50px]  ">
-                                        <template x-if="cartLoading">
-                                            <qumra-loading loading-size="20px" loading={true}></qumra-loading>
-                                        </template>
-                                        <template x-if="!cartLoading">
-                                            <div
-                                                class=" text-mainColor flex gap-2 items-center font-bold justify-center">
-                                                <i class="fi flex items-center text-mainColor fi-rr-shopping-cart"></i>
-                                                اضافة للسلة
+                        {# <template x-if="context.product.properties.length > 0">
+                            <div class="pt-6 border-t w-full font-bold flex flex-col gap-2 items-center text-customBlack"
+                                style="border-color: #D9D9D9">
+                                <qumra-product-options class="w-full" :main-color="data.app.settings.mainColor"
+                                    :product="product._id" :data="JSON.stringify(product.properties)">
+                                </qumra-product-options>
+                            </div>
+                        </template> #}
+                        <div class="flex flex-col gap-5">
+                            <div x-show="!context.product?.privatePrice"
+                                class="font-bold  flex flex-col items-center gap-3">
+                                <div class=" flex gap-5 items-center w-full">
+                                    <button id="addToCartBtn" type="submit" name="addToCart" value="addToCart"
+                                        class=" bg-mainColor text-white  flex-1 text-nowrap rounded-mainRadius flex justify-center gap-2 items-center px-4 h-[50px]  ">
+                                        <span id="addToCartLoader" style="display: none;">
+                                            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
+                                            fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                                stroke-width="4" />
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                                        </svg>
+                                        </span>
+                                            <div id="addToCartText" class=" w-full flex justify-center items-center gap-2">
+                                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <g clip-path="url(#clip0_495_171)">
+                                                    <path d="M16.122 4.06561C15.804 3.67761 15.334 3.45561 14.8327 3.45561H3.49333L3.32267 2.22694C3.20933 1.40761 2.5 0.78894 1.672 0.78894H0.833333C0.649333 0.78894 0.5 0.938274 0.5 1.12227C0.5 1.30627 0.649333 1.45561 0.833333 1.45561H1.67267C2.16933 1.45561 2.59467 1.82627 2.66267 2.31827L3.85 10.8683C4.05533 12.3429 5.33333 13.4556 6.82133 13.4556H13.5C13.684 13.4556 13.8333 13.3063 13.8333 13.1223C13.8333 12.9383 13.684 12.7889 13.5 12.7889H6.82133C5.668 12.7889 4.67867 11.9296 4.51333 10.7889H12.94C14.3653 10.7889 15.602 9.77494 15.8813 8.37761L16.4673 5.44894C16.5653 4.95694 16.44 4.45294 16.122 4.06561ZM15.814 5.31827L15.228 8.24694C15.0107 9.33361 14.048 10.1223 12.94 10.1223H4.41933L3.586 4.12227H14.8327C15.1333 4.12227 15.4153 4.25561 15.606 4.48827C15.7967 4.72094 15.872 5.02361 15.814 5.31827ZM5.16667 14.1223C4.43133 14.1223 3.83333 14.7203 3.83333 15.4556C3.83333 16.1909 4.43133 16.7889 5.16667 16.7889C5.902 16.7889 6.5 16.1909 6.5 15.4556C6.5 14.7203 5.902 14.1223 5.16667 14.1223ZM5.16667 16.1223C4.79867 16.1223 4.5 15.8229 4.5 15.4556C4.5 15.0883 4.79867 14.7889 5.16667 14.7889C5.53467 14.7889 5.83333 15.0883 5.83333 15.4556C5.83333 15.8229 5.53467 16.1223 5.16667 16.1223ZM11.8333 14.1223C11.098 14.1223 10.5 14.7203 10.5 15.4556C10.5 16.1909 11.098 16.7889 11.8333 16.7889C12.5687 16.7889 13.1667 16.1909 13.1667 15.4556C13.1667 14.7203 12.5687 14.1223 11.8333 14.1223ZM11.8333 16.1223C11.4653 16.1223 11.1667 15.8229 11.1667 15.4556C11.1667 15.0883 11.4653 14.7889 11.8333 14.7889C12.2013 14.7889 12.5 15.0883 12.5 15.4556C12.5 15.8229 12.2013 16.1223 11.8333 16.1223Z" fill="white"/>
+                                                    </g>
+                                                    <defs>
+                                                    <clipPath id="clip0_495_171">
+                                                    <rect width="16" height="16" fill="white" transform="translate(0.5 0.78894)"/>
+                                                    </clipPath>
+                                                    </defs>
+                                                    </svg>
+                                                <span >إضافة للسلة</span>
                                             </div>
+                                    </button>
+                                    <div class=" flex  border border-neutral200 w-[105px] h-[50px] items-center gap-2">
+                                        <span class="flex w-full h-full items-center justify-center  cursor-pointer"
+                                            @click="increaseCartItem(quntity)">
+                                            <svg width="20" height="21" viewBox="0 0 20 21" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M10 5.78894L10 15.7889M15 10.7889L5 10.7889" stroke="black"
+                                                    stroke-linecap="round" />
+                                            </svg>
+                                            </i>
+                                        </span>
+                                        <input name="quantity" step="1" :value="quntity" min="1"
+                                            class="w-full h-full  text-center  flex items-center justify-center"></input>
+                                        <span class="flex w-full h-full items-center justify-center  cursor-pointer"
+                                            @click="decreaseCartItem(quntity)">
+                                            <svg width="20" height="21" viewBox="0 0 20 21" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M16 10.7889L4 10.7889" stroke="black" stroke-linecap="round" />
+                                            </svg>
+
+                                        </span>
+
+
+                                    </div>
+
+                                </div>
+                                <button id="buyNowBtn" aria-label="اشتري الان" type="submit" name="buyNow"
+                                    value="buyNow" class=" border border-mainColor w-full   text-mainColor  font-bold rounded-mainRadius 
+                            flex items-center px-4 h-[50px]  justify-center">
+                                    <span id="buyNowText">اشترى الآن</span>
+                                    <span id="buyNowLoader" style="display: none;">
+                                        <svg class="animate-spin h-5 w-5 text-mainColor" xmlns="http://www.w3.org/2000/svg"
+                                            fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                                stroke-width="4" />
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
+                            <template x-if="context.product?.privatePrice">
+                                <div class="flex items-center justify-between gap-3 w-full">
+                                    <span
+                                        x-effect="console.log('test', priceAtCallLoading, priceAfterCall, localType)"></span>
+
+                                    <button type="button" @click="priceAtCallMethod('whatsapp')" aria-label="تواصل الان"
+                                        value="buyNow"
+                                        class="bg-mainColor w-full flex items-center px-4 h-[50px] justify-center text-white font-bold rounded-mainRadius"
+                                        8>
+                                        <template x-if="!(loading.priceAtCallWhatsApp && localType === 'whatsapp')">
+                                            <div class="flex items-center w-full gap-2 h-[50px] justify-center">
+                                                <svg width="20" height="20" viewBox="0 0 19 19" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.66699 2.04797C5.32472 2.04797 1.79199 5.52265 1.79199 9.79349C1.79199 11.1247 2.14108 12.4377 2.80157 13.5905C2.89854 13.7597 2.92397 13.9536 2.87323 14.1362C2.68029 14.8302 2.37497 15.943 2.18225 16.6462C2.13028 16.8355 2.16864 17.0333 2.28722 17.1888C2.40478 17.3429 2.5895 17.4349 2.78132 17.4349C2.8352 17.4349 2.88932 17.4278 2.94208 17.4139C3.69347 17.216 5.05584 16.8603 5.73759 16.7008C5.79069 16.6883 5.84525 16.682 5.89959 16.682C6.00444 16.682 6.10952 16.7059 6.20357 16.7513C7.2866 17.2737 8.45188 17.5387 9.66699 17.5387C14.0093 17.5387 17.542 14.0641 17.542 9.79315C17.542 5.5222 14.0093 2.04797 9.66699 2.04797Z"
+                                                        fill="white" />
+                                                </svg>
+                                                تواصل الان whatsapp
+                                            </div>
+                                        </template>
+
+                                        <template x-if="loading.priceAtCallWhatsApp && localType === 'whatsapp'">
+                                            <qumra-loading borderType="dashed" color="white" loading-size="20px"
+                                                loading="true"></qumra-loading>
+                                        </template>
+                                    </button>
+
+                                    <button type="button" @click="priceAtCallMethod('call');"
+                                        x-show="data?.app?.socialMedia?.phone" target="_blank" aria-label="تواصل الان"
+                                        value="buyNow"
+                                        class="bg-mainColor w-full text-white font-bold rounded-mainRadius flex items-center px-4 h-[50px] justify-center">
+                                        <template x-if="!(loading.priceAtCall && localType === 'call')">
+                                            <div class="flex items-center h-[50px] w-full gap-2 justify-center">
+                                                <i class="fi flex items-center fi-tr-phone-call text-white"></i>
+                                                تواصل الان phone
+                                            </div>
+                                        </template>
+
+                                        <template x-if="loading.priceAtCall && localType === 'call'">
+                                            <qumra-loading borderType="dashed" color="white" loading-size="20px"
+                                                loading="true"></qumra-loading>
                                         </template>
                                     </button>
                                 </div>
-                            </div>
-                            <button aria-label="اشتري الان" type="submit" name="buyNow" value="buyNow" class=" bg-mainColor md:w-5/12 w-full   text-white  font-bold rounded-mainRadius 
-                            flex items-center px-4 h-[50px]  justify-center">
-                                <span x-show="!buyNowLoading">اشترى الان</span>
-                                    <div x-show="buyNowLoading" class=" flex justify-center ">
-                                        <qumra-loading color="white" loading-size="20px"
-                                            loading={true}></qumra-loading>
-                                    </div>
-                            </button>
+                            </template>
+
                         </div>
-                        <template x-if="context.product?.privatePrice">
-                            <div class="flex items-center justify-between gap-3 w-full" x-data="{ localType: null }">
-                                <span
-                                    x-effect="console.log('test', priceAtCallLoading, priceAfterCall, localType)"></span>
 
-                                <button type="button" @click="
-                                        localType = 'whatsapp'; 
-                                        window.Qumra.product.productPriceAtCall('whatsapp').then(response => {
-                                            localType = response?.type;
-                                        }).catch(() => localType = null);
-                                    " aria-label="تواصل الان" value="buyNow"
-                                    class="bg-mainColor w-full flex items-center px-4 h-[50px] justify-center text-white font-bold rounded-mainRadius">
-
-                                    <template x-if="!priceAtCallLoading || localType !== 'whatsapp'">
-                                        <div class="flex items-center w-full gap-2 h-[50px] justify-center">
-                                            <svg width="20" height="20" viewBox="0 0 19 19" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M9.66699 2.04797C5.32472 2.04797 1.79199 5.52265 1.79199 9.79349C1.79199 11.1247 2.14108 12.4377 2.80157 13.5905C2.89854 13.7597 2.92397 13.9536 2.87323 14.1362C2.68029 14.8302 2.37497 15.943 2.18225 16.6462C2.13028 16.8355 2.16864 17.0333 2.28722 17.1888C2.40478 17.3429 2.5895 17.4349 2.78132 17.4349C2.8352 17.4349 2.88932 17.4278 2.94208 17.4139C3.69347 17.216 5.05584 16.8603 5.73759 16.7008C5.79069 16.6883 5.84525 16.682 5.89959 16.682C6.00444 16.682 6.10952 16.7059 6.20357 16.7513C7.2866 17.2737 8.45188 17.5387 9.66699 17.5387C14.0093 17.5387 17.542 14.0641 17.542 9.79315C17.542 5.5222 14.0093 2.04797 9.66699 2.04797Z"
-                                                    fill="white" />
-                                            </svg>
-                                            تواصل الان whatsapp
-                                        </div>
-                                    </template>
-
-                                    <template x-if="priceAtCallLoading && localType === 'whatsapp'">
-                                        <qumra-loading borderType='dashed' color="white" loading-size="20px"
-                                            loading={true}></qumra-loading>
-                                    </template>
-                                </button>
-                                <button @click="
-                                        localType = 'call'; 
-                                        window.Qumra.product.productPriceAtCall('call').then(response => {
-                                            localType = response?.type;
-                                        }).catch(() => localType = null);
-                                    " type="button" x-show="data?.app?.socialMedia?.phone" target="_blank"
-                                    aria-label="تواصل الان" value="buyNow"
-                                    class="bg-mainColor w-full text-white font-bold rounded-mainRadius flex items-center px-4 h-[50px] justify-center">
-
-                                    <template x-if="!priceAtCallLoading || localType !== 'call'">
-                                        <div class="flex items-center h-[50px] w-full gap-2 justify-center">
-                                            <i class="fi flex items-center fi-rr-phone-call text-white"></i>
-                                            تواصل الان phone
-                                        </div>
-                                    </template>
-
-                                    <template x-if="priceAtCallLoading && localType === 'call'">
-                                        <qumra-loading borderType='dashed' color="white" loading-size="20px"
-                                            loading={true}></qumra-loading>
-                                    </template>
-                                </button>
-                            </div>
-                        </template>
-
-
+                        <div class="flex items-center gap-[6px]">
+                            <i class="fi text-sm text-mainColor fi-tr-shipping-fast"></i>
+                            <p class=" font-bold text-sm">شحن مجاني عند الطلبات فوق 2000 <span x-text="currency"></span>
+                            </p>
+                        </div>
                     </div>
+
+
                 </form>
             </div>
 
@@ -228,30 +240,24 @@
     </div>
 
     <div x-show="context.relatedProducts.results.length > 0" class=" flex flex-col gap-6 ">
-        <div class="flex justify-between">
-            <h2 class=" font-bold text-2xl text-customBlack">منتجات مشابهة</h2>
-            <a aria-label="moreofProductmore" href="/latest" class=" font-bold text-md text-mainColor">عرض المزيد</a>
+        <div class="flex justify-center">
+            <h2 class=" font-bold text-2xl text-customBlack">منتجات ذات صلة</h2>
         </div>
-        {# <qumra-animation always="true" animation="slide-bottom fade"> #}
-            <div class="relative w-full">
-                <qumra-slider-multi :navigation-color="data.app.settings.mainColor" :slides-per-view="5"
-                    :space-between="10">
-                    <template x-for="item in context.relatedProducts.results" :key="item.id">
-                        <qumra-slider-item>
-                            <qumra-product-card :product="JSON.stringify(item)"></qumra-product-card>
-                        </qumra-slider-item>
-                    </template>
+        <div class="relative w-full">
+            <qumra-slider-multi :navigation-color="data.app.settings.mainColor" :slides-per-view="5"
+                :space-between="10">
+                <template x-for="item in context.relatedProducts.results" :key="item.id">
+                    <qumra-slider-item>
+                        <qumra-product-card :product="JSON.stringify(item)"></qumra-product-card>
+                    </qumra-slider-item>
+                </template>
 
-                </qumra-slider-multi>
-            </div>
-            {#
-        </qumra-animation> #}
+            </qumra-slider-multi>
+        </div>
 
     </div>
 
 </div>
-
-
 
 
 {% endblock %}

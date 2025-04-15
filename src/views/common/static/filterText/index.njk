@@ -4,11 +4,11 @@
         this.IsOpen[title] = !this.IsOpen[title];
     },
 }">
-    <div x-show="filterData?.filters?.properties?.text?.length > 0" class="flex flex-col gap-4">
-        <template x-for="group in filterData?.filters?.properties?.text" :key="group.title">
-            <div class="rounded-lg border border-[#E5E5E5] p-4 flex flex-col items-start gap-3">
+    <div x-show="context.filters.properties.text.length > 0" class="flex flex-col gap-4">
+        <template x-for="group in context.filters.properties.text" :key="group.title">
+            <div class=" border border-neutral200 p-4 flex flex-col items-start gap-3">
                 <div @click="toggleGroup(group.title)" class="w-full flex items-center justify-between cursor-pointer">
-                    <span x-text="group.title" class="font-semibold text-[#434A5B]"></span>
+                    <span x-text="group.title" class="font-semibold text-customBlack"></span>
                     <svg :class="IsOpen[group.title] ? 'rotate-180' : ''" width="24" height="25" viewBox="0 0 24 25"
                         fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -17,22 +17,20 @@
                             stroke-linejoin="round" />
                     </svg>
                 </div>
-                <div x-show="IsOpen[group.title]" x-collapse class="w-max grid grid-cols-3 gap-2">
+                <div x-show="IsOpen[group.title]" x-collapse class="w-max grid grid-cols-1 gap-2">
                     <template x-for="c in group.data" :key="c.id">
-                        <div @click="addFilter('texts', c.id)"
-                            :class="isSelected('texts', c.id) ? 'border-mainColor' : 'border-[#E5E5E5]'"
-                            class="cursor-pointer flex gap-1 items-center py-1 px-[10px] rounded-full border transition">
+                        <div @click="addFilter('texts', c)"
+                            class="cursor-pointer flex gap-2 items-center  ">
                             <div class="w-max">
-                                <span x-effect="console.log('Selected Filters:', selectedFilters)"></span>
                                 <span :class="isSelected('texts', c.id) ? 'bg-mainColor text-white' : ''"
-                                    class="w-5 h-5 rounded-full border border-[#E5E5E5] flex items-center justify-center">
+                                    class="w-5 h-5 rounded-mainRadius border border-neutral200 flex items-center justify-center">
                                     <i x-show="isSelected('texts', c.id)"
-                                        class="fi flex items-center text-white text-xs font-bold fi-rr-check"></i>
+                                        class="fi flex items-center text-white text-xs font-bold fi-tr-check-double"></i>
                                 </span>
 
                             </div>
                             <div class="truncate">
-                                <span x-text="c.title" class="text-[#434A5B] text-sm truncate"></span>
+                                <span x-text="c.title" class="text-customBlack text-sm truncate"></span>
                             </div>
                         </div>
                     </template>
