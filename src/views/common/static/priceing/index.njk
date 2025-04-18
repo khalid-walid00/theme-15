@@ -1,6 +1,6 @@
 <div
-  x-data="xDataPriceSlider()"
-  x-init="updatePosition()"
+  x-data="xDataPriceSlider(context)"
+  x-init="updatePosition() ? updatePosition() : ''"
   class="w-full"
 >
   <div x-data="{ open :   false }" class=" rounded-mainRadius border border-neutral200 p-4 flex flex-col items-start gap-4">
@@ -29,7 +29,7 @@
           @touchstart="startDrag('min')"
         >
           <span
-            class="absolute -top-8 h-[25px] text-sm  rounded-mainRadius w-[60px] flex items-center justify-center bg-mainColor text-white"
+            class="absolute -top-8 h-[25px] text-sm  rounded-mainRadius px-1 min-w-[60px] flex items-center justify-center bg-mainColor text-white"
             x-text="minVal + data.app.currency.currencySymbol"
           ></span>
         </span>
@@ -50,8 +50,8 @@
           @touchstart="startDrag('max')"
         >
           <span
-            class="absolute -top-8 h-[25px]  rounded-mainRadius w-[60px] text-sm flex items-center justify-center bg-mainColor text-white"
-            x-text="maxVal + data.app.currency.currencySymbol"
+            class="absolute -top-8 h-[25px]  rounded-mainRadius px-1  min-w-[60px] text-sm flex items-center justify-center bg-mainColor text-white"
+            x-text="maxVal  + data?.app?.currency?.currencySymbol"
           ></span>
         </span>
       </div>

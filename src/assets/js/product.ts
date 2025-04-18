@@ -136,6 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 text.style.display = "none";
                 loader.style.display = "inline-block";
             }
+            console.log("submitForm", res);
             const actionPromise = isBuyNow
                 ? window.Qumra.order.buyNow(res.product, res.quantity, res.properties)
                 : window.Qumra.cart.addCartItem(res.product, res.quantity, res.properties);

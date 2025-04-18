@@ -50,11 +50,17 @@ module.exports = {
       },
       animation: {
         slide: 'slide 20s linear infinite', // أنيميشن للـ slider
+     'spin-slow': 'spin 5s linear infinite',
+    'spin-slow-reverse': 'spin-reverse 5s linear infinite',
       },
       keyframes: {
         slide: {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-50%)' }, // نصف المسافة بسبب التكرار
+        },
+        'spin-reverse': {
+          from: { transform: 'rotate(0deg)' },
+          to: { transform: 'rotate(-360deg)' },
         },
       },
     },

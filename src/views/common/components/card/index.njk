@@ -19,33 +19,37 @@
                     <div x-show="item.rate > 0" class="flex items-center gap-[6px]">
                         <div class="flex items-center gap-1">
                             <template x-for="star in 5">
-                                <svg width="10" height="11" viewBox="0 0 10 11" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    :class="star <= Math.round(item.rate) ? 'fill-[#FFD401]' : 'fill-[#E4E4E4]'">
-                                    <g clip-path="url(#clip0_10875_56521)">
-                                        <path
-                                            d="M5.24251 0.670749L6.521 3.80482L9.76563 4.10884C9.81686 4.11324 9.86571 4.13346 9.90601 4.16694C9.94632 4.20043 9.97627 4.24568 9.99211 4.297C10.0079 4.34832 10.009 4.40341 9.99501 4.45533C9.98107 4.50725 9.95279 4.55368 9.91374 4.58877L7.45768 6.83471L8.18197 10.1652C8.18953 10.2002 8.19044 10.2364 8.18462 10.2718C8.17881 10.3071 8.1664 10.3409 8.1481 10.3713C8.1298 10.4016 8.10597 10.4278 8.07799 10.4484C8.05 10.469 8.01841 10.4836 7.98503 10.4914C7.91597 10.5067 7.84396 10.4926 7.78483 10.4521L4.99756 8.70662L2.20296 10.4607C2.17377 10.4793 2.14136 10.4916 2.1076 10.497C2.07384 10.5023 2.03941 10.5006 2.00627 10.492C1.97314 10.4833 1.94197 10.4679 1.91455 10.4465C1.88713 10.4252 1.86401 10.3984 1.84652 10.3676C1.829 10.3375 1.81732 10.304 1.81215 10.2691C1.80699 10.2342 1.80843 10.1986 1.81641 10.1643L2.5415 6.83386L0.0887044 4.58877C0.037148 4.54077 0.00555294 4.47349 0.000685514 4.40134C-0.00418191 4.3292 0.0180653 4.25792 0.0626627 4.20277C0.111814 4.14993 0.178676 4.11929 0.249023 4.11738L3.48145 3.81336L4.75993 0.670749C4.78055 0.621631 4.81434 0.579867 4.85718 0.550547C4.90003 0.521227 4.95007 0.505615 5.00122 0.505615C5.05237 0.505615 5.10242 0.521227 5.14526 0.550547C5.1881 0.579867 5.22189 0.621631 5.24251 0.670749Z" />
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_10875_56521">
-                                            <rect width="10" height="10" fill="white" transform="translate(0 0.5)" />
-                                        </clipPath>
-                                    </defs>
+                                <svg 
+                                  width="10" 
+                                  height="11" 
+                                  viewBox="0 0 10 11" 
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  :fill="star <= Math.round(item.rate) ? '#FFD401' : '#ADADAD'"
+                                >
+                                  <g clip-path="url(#clip0_505_6660)">
+                                    <path d="M5.24249 0.459689L6.52097 3.59376L9.7656 3.89778C9.81684 3.90218 9.86568 3.9224 9.90599 3.95588C9.94629 3.98937 9.97625 4.03462 9.99209 4.08594C10.0079 4.13726 10.0089 4.19235 9.99499 4.24427C9.98104 4.2962 9.95276 4.34262 9.91371 4.37771L7.45766 6.62365L8.18194 9.95414C8.18951 9.98913 8.19041 10.0253 8.1846 10.0607C8.17878 10.0961 8.16637 10.1299 8.14807 10.1602C8.12977 10.1905 8.10594 10.2167 8.07796 10.2373C8.04998 10.258 8.01838 10.2726 7.985 10.2804C7.91595 10.2956 7.84393 10.2815 7.78481 10.2411L4.99753 8.49556L2.20294 10.2496C2.17374 10.2682 2.14133 10.2805 2.10757 10.2859C2.07382 10.2913 2.03938 10.2896 2.00625 10.2809C1.97311 10.2723 1.94194 10.2568 1.91452 10.2355C1.8871 10.2141 1.86398 10.1873 1.84649 10.1565C1.82897 10.1264 1.81729 10.0929 1.81213 10.0581C1.80696 10.0232 1.8084 9.98757 1.81638 9.95328L2.54148 6.6228L0.0886777 4.37771C0.0371213 4.32971 0.00552624 4.26243 0.000658811 4.19028C-0.00420861 4.11814 0.0180386 4.04686 0.062636 3.99171C0.111788 3.93887 0.178649 3.90823 0.248997 3.90632L3.48142 3.6023L4.7599 0.459689C4.78052 0.410571 4.81432 0.368808 4.85716 0.339487C4.9 0.310167 4.95005 0.294556 5.0012 0.294556C5.05234 0.294556 5.10239 0.310167 5.14523 0.339487C5.18807 0.368808 5.22187 0.410571 5.24249 0.459689Z"/>
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_505_6660">
+                                      <rect width="10" height="10" fill="white" transform="translate(0 0.28894)"/>
+                                    </clipPath>
+                                  </defs>
                                 </svg>
-                            </template>
+                              </template>
                         </div>
-                        <span x-text="item.rateCount" class="text-[#6D7676] text-xs"></span>
+                            <span x-text="(+item.rateCount).toFixed(2)" class="text-[#6D7676] text-xs"></span>
                     </div>
-                    <span x-show="item.rate == 0" class="text-[#6D7676] text-xs">لا يوجد تقييمات</span>
+    
+                    <span x-show="item.rate == 0" class="text-neutral400 text-xs">لا يوجد تقييمات</span>
 
-                    <div class="flex flex-wrap items-center gap-x-1">
-                        <div x-show="item.priceAfterDiscount > 0" class="flex items-center">
-                            <span x-text="item.priceAfterDiscount" class="text-mainColor text-lg font-bold"></span>
-                            <span x-text="data.app.currency.currencySymbol" class="text-mainColor text-lg font-bold"></span>
+                    <div class="flex flex-col gap-1">
+                        <div x-show="item.discount > 0" class="flex items-center">
+                            <span x-text="item.priceAfterDiscount" class="text-mainColor text-lg font-extrabold"></span>
+                            <span x-text="data.app.currency.currencySymbol" class="text-mainColor text-lg font-extrabold"></span>
                         </div>
-                        <div x-show="item.discount > 0" class="flex items-center gap-1">
-                            <span x-text="item.price" class="line-through text-[#6D7676] text-sm"></span>
-                            <span x-text="data.app.currency.currencySymbol" class="text-[#6D7676] text-lg font-bold"></span>
+                        <div class="flex items-center">
+                            <span x-text="item.price" :class="item.discount > 0 ? 'line-through  text-neutral400 text-sm' : ' text-mainColor text-lg font-extrabold'"></span>
+                            <span x-text="data.app.currency.currencySymbol" :class="item.discount > 0 ? 'line-through  text-neutral400 text-sm' : ' text-mainColor text-lg font-extrabold'"></span>
                         </div>
                     </div>
                 </a>
@@ -66,7 +70,7 @@
                 
                 
                     <div x-show="item.privatePrice" class="flex flex-col gap-1 w-full">
-                        <span class="text-[#6D7676] text-sm">السعر عند الاتصال:</span>
+                        <span class="text-neutral400 text-sm">السعر عند الاتصال:</span>
                         <div class="flex items-center gap-2">
                             <button
                                 class="h-8 flex w-full cursor-pointer justify-center bg-[#20B038] text-white rounded-mainRadius items-center gap-2"

@@ -1,12 +1,32 @@
-<div id="spinner-container"
-   class="fixed top-0 left-0 z-[999999] w-screen h-screen flex flex-col items-center justify-center">
-   <div class=" relative flex flex-col gap-2">
-      <div class="w-20  absolute top-0 h-20 border-loading  animate-spin rounded-full">
-      </div>
-      <div class="w-20 h-20 p-3">
-         <img class=" w-full h-full object-contain rounded-full" src={{global.app.logoUrl}} alt="logo">
-      </div>
-      <div class=""><span class="animate-ping animate-delay-200">.</span><span class="animate-ping animate-delay-100 ">.</span><span class="animate-ping">.</span><span class="">.</span>Loading</div>
-   </div>
+<div id="spinner-container" class="fixed top-0 left-0 z-[999999] w-screen h-screen flex flex-col items-center justify-center">
+   <div class="relative flex flex-col gap-2">
+      <!-- SVG التي ستدور -->
+     
+      <div class=" animate-spin-slow relative">
 
+         <div class="absolute top-0 left-0">
+            <svg class=" absolute top-1/2 left-0 -translate-x-[2.75rem] " width="57" height="152" viewBox="0 0 57 152" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <path opacity="0.8" d="M52.9746 32.1821C55.0167 18.5746 45.641 5.88811 32.0335 3.84609C18.426 1.80407 5.73944 11.1797 3.69741 24.7873C1.65539 38.3948 11.0311 51.0813 24.6387 53.1233C38.2462 55.1653 50.9326 45.7896 52.9746 32.1821Z" fill="{{global.app.settings.mainColor}}"/>
+               <path opacity="0.7" d="M19.172 91.9649C19.8926 82.0418 21.7477 72.298 24.6815 62.9879C25.7101 59.7196 26.8784 56.5097 28.1642 53.3589C22.7204 53.3162 17.6932 51.5293 13.6124 48.5272C12.6889 52.2958 11.9191 56.0907 11.3186 59.9003C9.62858 70.5965 9.22189 81.3952 10.0287 92.0035C10.8256 102.613 12.8516 113.052 16.0385 123.029C19.2189 133.007 23.5527 142.522 28.8773 151.33C24.9099 141.831 22.0985 131.946 20.4833 121.96C18.8623 111.974 18.4425 101.886 19.172 91.9649Z" fill="{{global.app.settings.mainColor}}"/>
+               </svg>
+            <svg class=" absolute top-0 left-0 translate-x-[1.75rem]   translate-y-[-3rem]"  width="149" height="50" viewBox="0 0 149 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <path d="M148.463 24.9143C148.463 38.6749 137.308 49.8295 123.548 49.8295C109.788 49.8295 98.6328 38.6749 98.6328 24.9143C98.6328 11.1545 109.787 0 123.548 0C137.309 0 148.463 11.1545 148.463 24.9143Z" fill="{{global.app.settings.mainColor}}"/>
+               <path opacity="0.9" d="M103.472 10.1678C99.7035 9.24433 95.9086 8.47369 92.0989 7.87394C81.4028 6.18396 70.604 5.7765 59.9958 6.58411C49.3859 7.38104 38.9469 9.40784 28.9705 12.5931C18.9925 15.7743 9.47775 20.1072 0.667969 25.4327C10.1687 21.4661 20.0523 18.6539 30.0386 17.0387C40.0257 15.4169 50.113 14.9978 60.0344 15.7266C69.9574 16.4463 79.7013 18.3031 89.0106 21.2361C92.278 22.2647 95.4888 23.4322 98.6395 24.7188C98.6831 19.275 100.47 14.2477 103.472 10.1678Z" fill="{{global.app.settings.mainColor}}"/>
+               </svg>
+
+               <svg  class=" absolute top-1/2 right-0  translate-y-[2rem] translate-x-[15.75rem] " width="50" height="149" viewBox="0 0 50 149" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path opacity="0.4" d="M25.0851 148.017C11.3245 148.017 0.169922 136.863 0.169922 123.102C0.169922 109.342 11.3253 98.1869 25.0851 98.1869C38.8449 98.1869 50.0003 109.342 50.0003 123.102C49.9994 136.863 38.8449 148.017 25.0851 148.017Z" fill="{{global.app.settings.mainColor}}"/>
+                  <path opacity="0.3" d="M34.2736 59.3655C33.5531 69.2886 31.6972 79.0325 28.7642 88.3426C27.7355 91.6109 26.5681 94.8207 25.2815 97.9723C30.7253 98.0142 35.7533 99.8019 39.8333 102.803C40.7559 99.0346 41.5274 95.2398 42.1271 91.4302C43.8171 80.734 44.2238 69.9351 43.417 59.3269C42.6201 48.7171 40.594 38.2781 37.408 28.3017C34.2268 18.3237 29.8938 8.80896 24.5684 0C28.5349 9.49991 31.3472 19.3842 32.9624 29.3705C34.5834 39.356 35.0024 49.4442 34.2736 59.3655Z" fill="{{global.app.settings.mainColor}}"/>
+                  </svg>
+
+                  <svg class=" absolute top-0 left-0 translate-x-[1.75rem]   translate-y-[12.75rem]" width="149" height="51" viewBox="0 0 149 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+                     <path opacity="0.6" d="M0.980469 25.6372C0.980469 11.8766 12.135 0.722046 25.8956 0.722046C39.6563 0.722046 50.8108 11.8766 50.8108 25.6372C50.8108 39.397 39.6554 50.5524 25.8956 50.5524C12.135 50.5524 0.980469 39.397 0.980469 25.6372Z" fill="{{global.app.settings.mainColor}}"/>
+                     <path opacity="0.5" d="M119.407 33.5136C109.42 35.1346 99.3328 35.5544 89.4114 34.8248C79.4884 34.1051 69.7445 32.2492 60.4344 29.3162C57.1661 28.2875 53.9562 27.1193 50.8055 25.8327C50.7636 31.2773 48.9767 36.3045 45.9746 40.3853C49.7432 41.3079 53.538 42.0786 57.3477 42.6791C68.043 44.3683 78.8427 44.7758 89.4509 43.9682C100.061 43.1712 110.5 41.1453 120.475 37.9592C130.453 34.7788 139.968 30.445 148.778 25.1195C139.277 29.0861 129.394 31.8976 119.407 33.5136Z" fill="{{global.app.settings.mainColor}}"/>
+                     </svg>
+         </div>
+         <div class="w-[200px]  animate-spin-slow-reverse rounded-full shadow-[0px_0px_30px_0px_#EBEBEB] flex items-center justify-center h-[200px] p-10">
+            <img class="w-full h-full object-contain rounded-full" src={{global.app.logoUrl}} alt="logo">
+         </div>
+      </div>
+   </div>
 </div>

@@ -61,7 +61,7 @@
               <path d="M14.1057 14.5945L17 17.3945M16.0667 9.92786C16.0667 13.5361 13.1416 16.4612 9.53333 16.4612C5.92507 16.4612 3 13.5361 3 9.92786C3 6.3196 5.92507 3.39453 9.53333 3.39453C13.1416 3.39453 16.0667 6.3196 16.0667 9.92786Z" stroke="#333333" stroke-linecap="round"/>
             </svg>
           </span>
-            <input x-model="search"  @keydown.enter="window.setSearch(search)" :value="context.search?.q" type="text" class=" border-none outline-none text-sm py-[5px] pl-3 placeholder-neutral400"
+            <input x-model="search"  @keydown.enter="window.setSearch(search)" :value="context?.search?.q" type="text" class=" border-none outline-none text-sm py-[5px] pl-3 placeholder-neutral400"
             placeholder="ابحث هنا..." />
         </div>
   

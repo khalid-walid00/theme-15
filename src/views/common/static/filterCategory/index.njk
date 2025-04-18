@@ -1,5 +1,5 @@
 <div  class="relative">
-  <div x-data="{ open :   false }" x-show="context.filters.categories.length > 0"
+  <div x-data="{ open :   false }" x-show="context?.filters?.categories.length > 0"
     class=" rounded-mainRadius border border-neutral200 p-4 flex flex-col items-start gap-3">
     <div @click="open = !open" class="w-full flex items-center justify-between cursor-pointer">
       <span class="font-semibold text-customBlack">تصنيفات المنتجات</span>
@@ -12,7 +12,7 @@
       </svg>
     </div>
     <div  x-show="open" x-collapse class="w-full flex flex-wrap gap-2">
-      <template x-for="item in context.filters.categories" :key="item.id">
+      <template x-for="item in context?.filters?.categories" :key="item.id">
         <div @click="toggleFilterCategory(item)"
           :class="FilterCategoryItems.some(i => i.id === item.id) || item.id == context.category.id ? 'border-mainColor' : ''"
           class="cursor-pointer flex truncate gap-1 items-center p-1 pl-[10px]  rounded-mainRadius border border-neutral200">
@@ -32,4 +32,3 @@
     </div>
   </div>
 </div>
-<script src={{"filterCategory.js" | assets}}></script>

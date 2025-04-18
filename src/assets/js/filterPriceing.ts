@@ -1,25 +1,25 @@
 
 declare global {
   interface Window {
-    xDataPriceSlider: () => any;
+    xDataPriceSlider: (context : any) => any;
     GlobalState: any;
 
   }
 }
 
-function xDataPriceSlider() {
+function xDataPriceSlider(context: any) {
   return {
-    minVal: 0,
-    maxVal: 9999,
+    minVal: context?.filters?.minPrice || 0,
+    maxVal: context?.filters?.maxPrice || 99999,
     minPos: 0,
     maxPos: 100,
-    maxLimit: 9999,
+    maxLimit: context.filters.maxPrice || 99999,
     dragging: null,
     lastUpdate: 0,
 
     updatePosition() {
-      this.minPos = (this.minVal / this.maxLimit) * 100;
-      this.maxPos = (this.maxVal / this.maxLimit) * 100;
+      this.minPos = (this.minVal / this.maxLimit) * 100 || 0;
+      this.maxPos = (this.maxVal / this.maxLimit) * 100 || 100;
     },
 
     startDrag(type:any) {
@@ -62,7 +62,7 @@ function xDataPriceSlider() {
       const newVal = Math.round((newPos / 100) * this.maxLimit);
 
       if (this.dragging === 'min' && newVal < this.maxVal - 50 && newVal >= 0) {
-        this.minVal = newVal;
+        this.minVal = newVal || 0;
         this.updatePosition();
       } else if (this.dragging === 'max' && newVal > this.minVal + 50 && newVal <= this.maxLimit) {
         this.maxVal = newVal;

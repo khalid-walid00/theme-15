@@ -1,5 +1,5 @@
 <div>
-    <div x-show="context.filters.properties.color.length > 0"
+    <div x-show="context?.filters?.properties?.color?.length > 0"
         class="rounded-mainRadius border border-neutral200 p-4 flex overflow-hidden flex-col items-start gap-3">
         <div @click="toggleModal('colorProperties')" class="w-full flex items-center justify-between cursor-pointer">
             <span class="font-semibold text-customBlack">الألوان</span>
@@ -12,7 +12,7 @@
             </svg>
         </div>
         <div x-show="modal.type === 'colorProperties' && modal.open" x-collapse class="w-max grid grid-cols-8 gap-x-2 gap-y-3">
-            <template x-for="group in context.filters.properties.color" :key="group.title" >
+            <template x-for="group in context?.filters?.properties?.color" :key="group.title" >
                 <template x-for="color in group.data" :key="color.id">
                     <div @click="addFilter('colors', color)" class="cursor-pointer w-max">
                         <div class="w-6 h-6 flex items-center justify-center rounded-mainRadius p-[3px]"

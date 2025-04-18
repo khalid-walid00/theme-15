@@ -4,8 +4,8 @@
         this.IsOpen[title] = !this.IsOpen[title];
     },
 }">
-    <div x-show="context.filters.properties.text.length > 0" class="flex flex-col gap-4">
-        <template x-for="group in context.filters.properties.text" :key="group.title">
+    <div x-show="context?.filters?.properties?.text?.length > 0" class="flex flex-col gap-4">
+        <template x-for="group in context?.filters?.properties?.text" :key="group.title">
             <div class=" border border-neutral200 p-4 flex flex-col items-start gap-3">
                 <div @click="toggleGroup(group.title)" class="w-full flex items-center justify-between cursor-pointer">
                     <span x-text="group.title" class="font-semibold text-customBlack"></span>

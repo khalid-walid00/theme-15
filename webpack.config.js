@@ -15,7 +15,6 @@ module.exports = {
     limit: [asset("js/limit.ts")],
     pagination: [asset("js/pagination.ts")],
     sort: [asset("js/sort.ts")],
-    filterCategory: [asset("js/filterCategory.ts")],
     filterPriceing: [asset("js/filterPriceing.ts")],
     filterProperties: [asset("js/filterProperties.ts")],
     cart: [asset("js/cart.ts")],

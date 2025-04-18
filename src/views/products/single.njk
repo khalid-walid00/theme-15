@@ -13,7 +13,7 @@
 
             <div class="md:sticky md:top-20  md:col-span-2 ">
                 <div class="relative w-full">
-                    <qumra-slider :navigation-color="data.app.settings.mainColor">
+                    <qumra-slider :navigation="context.product.images.length > 1" :navigation-color="data.app.settings.mainColor">
                         <template x-for="image in context.product.images">
                             <qumra-slider-item navigationColor="#eb0000" class="rounded-lg"><img
                                     class="h-full w-full rounded-lg" style="object-fit: contain;max-height: 400px;"

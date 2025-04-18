@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 	(document?.getElementById('spinner-container') as any).style.display = 'none';
 });
+
 interface GlobalStateInterface {
 	modal: {
 		open: boolean;

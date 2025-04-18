@@ -9,8 +9,14 @@
     
 </div>
     <div class="w-full flex justify-between items-center border border-neutral200  p-[5px]  bg-white">
-        <input :value="context.search?.q" x-model="search" placeholder="ابحث هنا..."
-            class=" w-full h-full px-4 bg-transparent outline-none" type="text" />
+        <input
+        :value="context?.search?.q"
+        x-model="search"
+        placeholder="ابحث هنا..."
+        type="text"
+        @focus="$nextTick(() => $el.closest('[q-panel=search]').scrollIntoView({ behavior: 'smooth', block: 'start' }))"
+        class="w-full h-full px-4 bg-transparent outline-none"
+      />
         <div class=" w-max">
 
             <div x-on:click="window.setSearch(search)"
